@@ -5,6 +5,8 @@ const {
   deleteJob,
   getAllJob,
   getJobByTitle,
+  getJobBySalary,
+  getJobByTime,
   getJobsByLocation,
 } = require("../controllers/job.controller");
 
@@ -15,6 +17,8 @@ router.put("/update/:id", auth, updateJob);
 router.delete("/delete/:id", auth, deleteJob);
 router.get("/allJob", auth, getAllJob);
 router.get("/jobBytitle", auth, getJobByTitle);
+router.get("/jobBySalary", auth, getJobBySalary);
+router.get("/jobByTime", auth, getJobByTime);
 router.get("/jobByLocation", auth, getJobsByLocation);
 
 module.exports = router;

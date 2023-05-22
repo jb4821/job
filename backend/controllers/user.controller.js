@@ -25,6 +25,7 @@ const registerUser = async (req, res) => {
         gender,
         location,
         password: hashPassword,
+        profileImg: req.file.filename,
       });
       await user.save();
 

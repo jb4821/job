@@ -118,6 +118,37 @@ const getJobByTitle = async (req, res) => {
   }
 };
 
+// get by salary
+
+const getJobBySalary = async (req, res) => {
+  try {
+    const { salary } = req.query;
+    const job = await Job.find({
+      salary: { $regex: salary, $options: "i" },
+      isDeleted: false,
+    });
+    return res.status(200).json({ message: job });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+// get by time
+
+const getJobByTime = async (req,res) => {
+  try{
+    const { time } = req.query;
+    const threshold = new Date();
+    threshold.setHours(threshold.getHours() - time);
+
+    const job = await Job.find({ createdAt: { $gte: threshold }, isDeleted:false});
+    return res.status(200).json({ job }); 
+
+  }catch(error) {
+    return res.status(400).json({ error: error.message })
+  }
+}
+
 // get by location
 
 const getJobsByLocation = async (req, res) => {
@@ -126,10 +157,10 @@ const getJobsByLocation = async (req, res) => {
 
     const job = await Job.find({ isDeleted: false })
       .populate({
-        path: "recruiterId",
-        match: { name: location },
+        path: 'recruiterId',
+        match: { location: { $regex: location , $options: "i"} }
       })
-      .exec();
+      .exec();   
 
     console.log(job.recruiterId);
 
@@ -147,5 +178,7 @@ module.exports = {
   deleteJob,
   getAllJob,
   getJobByTitle,
+  getJobBySalary,
+  getJobByTime,
   getJobsByLocation,
 };

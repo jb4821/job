@@ -9,12 +9,12 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-      require: true,
+      required: true,
     },
 
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
       lowercase: true,
       trim: true,
@@ -24,28 +24,32 @@ const userSchema = new mongoose.Schema(
     mobile: {
       type: Number,
       trim: true,
-      require: true,
+      required: true,
     },
 
     gender: {
       type: String,
       trim: true,
-      require: true,
+      required: true,
     },
 
     location: {
       type: String,
       trim: true,
-      require: true,
+      required: true,
     },
 
     password: {
       type: String,
       trim: true,
-      require: true,
+      required: true,
     },
 
     confirmPassword: {
+      type: String,
+    },
+
+    profileImg: {
       type: String,
     },
   },
