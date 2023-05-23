@@ -12,9 +12,14 @@ const jobApplySchema = new mongoose.Schema({
     ref: "Recruiter",
   },
 
-  cvFile: {
+  resume: {
     type: String,
     required: true,
+  },
+
+  applyedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
