@@ -27,6 +27,11 @@ const recruiterSchema = new mongoose.Schema(
       required: true,
     },
 
+    profileImg: {
+      type: String,
+      required: true,
+    },
+
     company: {
       type: String,
       trim: true,

@@ -1,0 +1,45 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    color: black;;
+
+    .container {
+        width: 1400px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0px;
+        .logo{
+            font-size: 34px;
+            font-weight: bold;
+            
+        
+        }
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-weight: 500;
+
+            .span{
+                &:hover {
+                    background-color: #1dbf73;
+                }
+            }
+
+            button{
+                color: black;
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: 1px solid white;
+                cursor: pointer;
+                background-color: transparent;
+
+                &:hover{
+                    background-color: #1dbf73;
+                    border-color: #1dbf73;
+                }
+            }
+        }
+    }
+}

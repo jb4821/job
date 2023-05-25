@@ -4,11 +4,12 @@ const Job = require("../models/job.model");
 
 const createJob = async (req, res) => {
   try {
-    const { jobTitle, description, salary, experience } = req.body;
+    const { jobTitle, category, description, salary, experience } = req.body;
     const recruiter = req.recruiter;
 
     const job = new Job({
       jobTitle,
+      category,
       description,
       salary,
       experience,
@@ -112,9 +113,36 @@ const getJobByTitle = async (req, res) => {
       jobTitle: { $regex: title, $options: "i" },
       isDeleted: false,
     });
-    return res.status(200).json({ message: job });
+    if (job.length != 0) {
+      return res.status(200).json({ message: job });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Job with this title not found!" });
+    }
   } catch (error) {
     return res.status(400).json({ message: error.message });
+  }
+};
+
+// get ny category
+
+const getByCategory = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const job = await Job.find({
+      category: { $regex: category, $options: "i" },
+      isDeleted: false,
+    });
+    if (job.length != 0) {
+      return res.status(200).json({ message: job });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "With this category no job found!" });
+    }
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -127,7 +155,13 @@ const getJobBySalary = async (req, res) => {
       salary: { $regex: salary, $options: "i" },
       isDeleted: false,
     });
-    return res.status(200).json({ message: job });
+    if (job.length != 0) {
+      return res.status(200).json({ message: job });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Job with this salary not found!" });
+    }
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
@@ -135,19 +169,27 @@ const getJobBySalary = async (req, res) => {
 
 // get by time
 
-const getJobByTime = async (req,res) => {
-  try{
+const getJobByTime = async (req, res) => {
+  try {
     const { time } = req.query;
     const threshold = new Date();
     threshold.setHours(threshold.getHours() - time);
 
-    const job = await Job.find({ createdAt: { $gte: threshold }, isDeleted:false});
-    return res.status(200).json({ job }); 
-
-  }catch(error) {
-    return res.status(400).json({ error: error.message })
+    const job = await Job.find({
+      createdAt: { $gte: threshold },
+      isDeleted: false,
+    });
+    if (job.length != 0) {
+      return res.status(200).json({ job });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "There is no job found in this time! " });
+    }
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
-}
+};
 
 // get by location
 
@@ -157,16 +199,21 @@ const getJobsByLocation = async (req, res) => {
 
     const job = await Job.find({ isDeleted: false })
       .populate({
-        path: 'recruiterId',
-        match: { location: { $regex: location , $options: "i"} }
+        path: "recruiterId",
+        match: { location: { $regex: location, $options: "i" } },
       })
-      .exec();   
+      .exec();
 
     console.log(job.recruiterId);
 
-    const filteredJobs = job.filter((job) => job.location !== null);
-
-    return res.status(200).json({ message: filteredJobs });
+    // const filteredJobs = job.filter((job) => job.location !== null);
+    if (job.length != 0) {
+      return res.status(200).json({ message: job });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "This location there is no job found!" });
+    }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -178,6 +225,7 @@ module.exports = {
   deleteJob,
   getAllJob,
   getJobByTitle,
+  getByCategory,
   getJobBySalary,
   getJobByTime,
   getJobsByLocation,

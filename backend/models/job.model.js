@@ -8,6 +8,12 @@ const jobSchema = new mongoose.Schema(
       required: true,
     },
 
+    category: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+
     recruiterId: {
       type: mongoose.Types.ObjectId,
       ref: "Recruiter",

@@ -45,7 +45,7 @@ const upload = multer({
       cb(null, `userprof-${Date.now()}`);
     },
   }),
-  fileFilter: fileFilter,
+  // fileFilter: fileFilter,
 });
 
 // const upload = multer({

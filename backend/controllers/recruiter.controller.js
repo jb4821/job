@@ -30,6 +30,7 @@ const registerRecruiter = async (req, res) => {
         company,
         location,
         password: hashPassword,
+        profileImg: req.file.location,
       });
       await recruiter.save();
 

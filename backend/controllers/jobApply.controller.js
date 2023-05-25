@@ -7,7 +7,7 @@ const applyForJob = async (req, res) => {
     const applyForJob = new JobApply({
       userId: req.user.id,
       recruiterId,
-      resume: req.file.filename,
+      resume: req.file.location,
     });
 
     await applyForJob.save();

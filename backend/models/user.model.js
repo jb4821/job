@@ -33,11 +33,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    location: {
-      type: String,
-      trim: true,
-      required: true,
-    },
+    // location: {
+    //   type: String,
+    //   trim: true,
+    //   required: true,
+    // },
 
     password: {
       type: String,
