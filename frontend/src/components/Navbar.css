@@ -1,0 +1,90 @@
+/* .navbar {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  color: black;
+
+  .container {
+    width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px;
+    .logo {
+      font-size: 34px;
+      font-weight: bold;
+    }
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-weight: 500;
+
+      .span {
+        &:hover {
+          background-color: #1dbf73;
+        }
+      }
+
+      button {
+        color: black;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: 1px solid white;
+        cursor: pointer;
+        background-color: transparent;
+
+        &:hover {
+          background-color: #1dbf73;
+          border-color: #1dbf73;
+        }
+      }
+    }
+  }
+} */
+
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  color: black;
+}
+
+.navbar .container {
+  width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0px;
+}
+
+.navbar .container .logo {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.navbar .container .links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-weight: 500;
+}
+
+.navbar .container .links .span:hover {
+  background-color: #1dbf73;
+}
+
+.navbar .container .links button {
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid white;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.navbar .container .links button:hover {
+  background-color: #1dbf73;
+  border-color: #1dbf73;
+}
+
+

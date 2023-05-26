@@ -130,16 +130,16 @@ const Footer = () => {
               </li>
               <li className="flex justify-start text-neutral gap-1 mb-3 hover:text-accent">
                 <BiRightArrowAlt className="text-primary" />
+                <Link to="/jobs">Jobs</Link>
+              </li>
+              <li className="flex justify-start text-neutral gap-1 mb-3 hover:text-accent">
+                <BiRightArrowAlt className="text-primary" />
                 <Link to="/about">About Us</Link>
               </li>
-              <li className="flex justify-start text-neutral gap-1 mb-3 hover:text-accent">
-                <BiRightArrowAlt className="text-primary" />
-                <Link to="/services">Services</Link>
-              </li>
-              <li className="flex justify-start text-neutral gap-1 mb-3 hover:text-accent">
+              {/* <li className="flex justify-start text-neutral gap-1 mb-3 hover:text-accent">
                 <BiRightArrowAlt className="text-primary" />
                 <Link to="/blog">Blogs</Link>
-              </li>
+              </li> */}
               <li className="flex justify-start text-neutral gap-1 mb-3 hover:text-accent">
                 <BiRightArrowAlt className="text-primary" />
                 <Link to="/contact">Contact</Link>
