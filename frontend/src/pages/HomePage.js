@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const HomePage = () => {
   return (
@@ -8,6 +9,8 @@ const HomePage = () => {
       <p>navbar</p>
       <p>mainpage</p>
       <p>footer</p>
+     
+      <Footer />
     </div>
   );
 };

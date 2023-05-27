@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const mongodb = require("./config/db");
+const cors = require("cors");
 require("dotenv").config();
 
 const userRouter = require("./routes/user.routes");
@@ -12,6 +13,7 @@ const jobApplyRouter = require("./routes/jobApply.routes");
 mongodb.mongoConnect();
 
 app.use(express.json());
+app.use(cors());
 
 app.use(morgan("dev"));
 

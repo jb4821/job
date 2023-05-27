@@ -1,9 +1,13 @@
-const router = require('express').Router();
-const { registerRecruiter, loginRecruiter, logoutRecruiter } = require('../controllers/recruiter.controller');
-const upload = require("../middlewares/fileUpload")
+const router = require("express").Router();
+const {
+  registerRecruiter,
+  loginRecruiter,
+  logoutRecruiter,
+} = require("../controllers/recruiter.controller");
+const { imgUpload } = require("../middlewares/fileUpload");
 
-router.post("/register", upload.single("profileImg"), registerRecruiter);
+router.post("/register", imgUpload.single("profileImg"), registerRecruiter);
 router.post("/login", loginRecruiter);
-router.post("/logout", logoutRecruiter)
+router.post("/logout", logoutRecruiter);
 
 module.exports = router;
