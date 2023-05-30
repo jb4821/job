@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, mobile, gender, password, confirmPassword } = req.body;
+    const { name, email, mobile, gender, password } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User is already exists." });
     }
 
-    if (password === confirmPassword) {
+    // if (password === confirmPassword) {
       const hashPassword = await bcrypt.hash(password, 10);
 
       const user = new User({
@@ -29,11 +29,11 @@ const registerUser = async (req, res) => {
 
       const token = await user.generateAuthToken();
       return res.status(201).json({ user: user.toJSON(), token });
-    } else {
-      return res
-        .status(400)
-        .json({ message: "Password and confirmPassword are not same" });
-    }
+    // } else {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Password and confirmPassword are not same" });
+    // }
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
