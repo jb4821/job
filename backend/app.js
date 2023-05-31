@@ -14,12 +14,12 @@ mongodb.mongoConnect();
 
 app.use(express.json());
 app.use(cors({
-    origin:"http://localhost:3001",
+    origin:"http://localhost:3000",
     Credential:true,
     
 }));
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });

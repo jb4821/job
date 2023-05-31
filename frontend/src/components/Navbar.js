@@ -2,23 +2,27 @@ import React from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../redux/slices/userSlice";
+import { logoutUser } from "../redux/slices/authSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.auth);
 
-  const onLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
-    navigate("/");
-  };
+  const handleClick = () => {
+    localStorage.clear()
+    navigate("/")
+  }
+
+  
   return (
     <div className="navbar">
       <div className="container">
         <div className="logo">
-          <span className="text"> <Link to= {'/'}>Job Recruiter</Link> </span>
+          <span className="text">
+            {" "}
+            <Link to={"/"}>Job Recruiter</Link>{" "}
+          </span>
         </div>
         <div className="links">
           <span>
@@ -34,21 +38,23 @@ const Navbar = () => {
             {" "}
             <Link to={"/contect"}>Contact</Link>
           </span>
-            {profile ? (
-              <li>
-                <button onClick={onLogout}>Logout</button>
-              </li>
-            ) : (
-              <>
-                <span>
-                  <Link to={"/login"}>LogIn </Link>
-                </span>
-                <span>
-                  <Link to={"/signup"}> UserSignUp</Link>
-                </span>
-              </>
-            )}
-          
+          {profile ? (
+            <ul>
+              <button onClick={handleClick}>Logout</button>
+            </ul>
+          ) : (
+            <>
+              <span>
+                <Link to={"/login"}>LogIn </Link>
+              </span>
+              <span>
+                <Link to={"/usersignup"}> UserSignUp</Link>
+              </span>
+              <span>
+                <Link to={"/recruitersignup"}> RecruiterSignUp</Link>
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

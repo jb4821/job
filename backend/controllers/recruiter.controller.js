@@ -20,30 +20,30 @@ const registerRecruiter = async (req, res) => {
       return res.status(400).json({ message: "Recruiter already exists!!!" });
     }
 
-    if (password === confirmPassword) {
-      const hashPassword = await bcrypt.hash(password, 10);
+    // if (password === confirmPassword) {
+    const hashPassword = await bcrypt.hash(password, 10);
 
-      const recruiter = new Recruiter({
-        name,
-        email,
-        mobile,
-        company,
-        location,
-        password: hashPassword,
-        profileImg: req.file.location,
-      });
-      await recruiter.save();
+    const recruiter = new Recruiter({
+      name,
+      email,
+      mobile,
+      company,
+      location,
+      password: hashPassword,
+      profileImg: req.file.location,
+    });
+    await recruiter.save();
 
-      const token = await recruiter.generateAuthToken();
-      return res.status(201).json({
-        recruiter: recruiter.toJSON(),
-        token,
-      });
-    } else {
-      return res
-        .status(400)
-        .json({ message: "Password and confirmPassword are not same." });
-    }
+    const token = await recruiter.generateAuthToken();
+    return res.status(201).json({
+      recruiter: recruiter.toJSON(),
+      token,
+    });
+    // } else {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Password and confirmPassword are not same." });
+    // }
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
@@ -87,6 +87,7 @@ const logoutRecruiter = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 
 module.exports = {
   registerRecruiter,

@@ -15,20 +15,20 @@ const registerUser = async (req, res) => {
     }
 
     // if (password === confirmPassword) {
-      const hashPassword = await bcrypt.hash(password, 10);
+    const hashPassword = await bcrypt.hash(password, 10);
 
-      const user = new User({
-        name,
-        email,
-        mobile,
-        gender,
-        password: hashPassword,
-        profileImg: req.file.location,
-      });
-      await user.save();
+    const user = new User({
+      name,
+      email,
+      mobile,
+      gender,
+      password: hashPassword,
+      profileImg: req.file.location,
+    });
+    await user.save();
 
-      const token = await user.generateAuthToken();
-      return res.status(201).json({ user: user.toJSON(), token });
+    const token = await user.generateAuthToken();
+    return res.status(201).json({ user: user.toJSON(), token });
     // } else {
     //   return res
     //     .status(400)
@@ -72,6 +72,8 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
   try {
     req.user = null;
+    localStorage.setItem("currentUser", null);
+    navigate("/");
     return res.status(200).json({ message: " Logged out successfully." });
   } catch (error) {
     return res.status(500).json({ message: error.message });

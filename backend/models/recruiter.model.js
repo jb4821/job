@@ -48,10 +48,10 @@ const recruiterSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    confirmPassword: {
-      type: String,
-      trim: true,
-    },
+    // confirmPassword: {
+    //   type: String,
+    //   trim: true,
+    // },
   },
   {
     timestamps: true,

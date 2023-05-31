@@ -1,36 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { signUpUser } from "../../redux/slices/authSlice";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { signUpRecruiter } from "../../redux/slices/authSlice";
 
 const defaultTheme = createTheme();
 
-const UserSignUp = () => {
+const RecruiterSignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  const [gender, setGender] = useState("");
+  const [company, setCompany] = useState("");
+  const [location, setLocation] = useState("");
   const [password, setPassword] = useState("");
   const [profilepic, setProfilepic] = useState(null);
-console.log(name,email,mobile,gender,password , profilepic);
+  // console.log(profilepic);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token, loading } = useSelector((state) => state.auth);
@@ -41,18 +40,19 @@ console.log(name,email,mobile,gender,password , profilepic);
     }
   }, [token]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = new FormData();
-    userData.append("name", name);
-    userData.append("email", email);
-    userData.append("mobile", mobile);
-    userData.append("gender", gender);
-    userData.append("password", password);
-    userData.append("profilepic", profilepic);
+    const recruiterData = new FormData();
+    recruiterData.append("name", name);
+    recruiterData.append("email", email);
+    recruiterData.append("mobile", mobile);
+    recruiterData.append("company", company);
+    recruiterData.append("location", location);
+    recruiterData.append("password", password);
+    recruiterData.append("profilepic", profilepic);
+    console.log(profilepic);
 
-    dispatch(signUpUser({ user: userData, navigate }));
+    dispatch(signUpRecruiter({ recruiter: recruiterData, navigate }));
   };
 
   return (
@@ -119,48 +119,53 @@ console.log(name,email,mobile,gender,password , profilepic);
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl>
-                    <FormLabel id="demo-row-radio-buttons-group-label">
-                      Gender
-                    </FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="gender"
-                      value={gender}
-                      onChange={(e) => setGender(e.target.value)}
-                    >
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                      <FormControlLabel
-                        value="other"
-                        control={<Radio />}
-                        label="Other"
-                      />
-                    </RadioGroup>
-                  </FormControl>
+                  <TextField
+                    required
+                    fullWidth
+                    id="company"
+                    label="Company Name"
+                    name="company"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    autoComplete="company"
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete="new-password"
+                    id="location"
+                    label="Location"
+                    name="location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    autoComplete="location"
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="password"
+                    label="Password"
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Grid>
+                {/* <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="gender"
+                    label="gender"
+                    type="text"
+                    id="gender"
+                    value={gender}
+                    onChange={(e) => setPassword(e.target.value)}
+                  /> */}
+                {/* </Grid> */}
                 <Grid item xs={12}>
                   <Grid item xs={12}>
                     <input
@@ -170,7 +175,8 @@ console.log(name,email,mobile,gender,password , profilepic);
                       accept="image/*"
                       required
                       onChange={(e) => setProfilepic(e.target.files[0])}
-                    />
+                      />
+                      
                   </Grid>
                 </Grid>
               </Grid>
@@ -184,7 +190,7 @@ console.log(name,email,mobile,gender,password , profilepic);
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/signin" variant="body2">
+                  <Link to={"/login"} variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
@@ -209,4 +215,4 @@ console.log(name,email,mobile,gender,password , profilepic);
   );
 };
 
-export default UserSignUp;
+export default RecruiterSignUp;
