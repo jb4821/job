@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import UserSignUp from "./pages/User/UserSignUp";
 import RecruiterSignUp from "./pages/Recruiter/RecruiterSignUp";
 import LogIn from "./components/LogIn";
+import AddJobs from "./pages/Job/AddJobs";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/usersignup" element={<UserSignUp />}></Route>
         <Route path="/recruitersignup" element={<RecruiterSignUp />}></Route>
         <Route path="/login" element={<LogIn />}></Route>
+        <Route path="/addjob" element={<AddJobs />}></Route>
         <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
 

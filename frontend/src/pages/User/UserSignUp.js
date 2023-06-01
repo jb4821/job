@@ -29,8 +29,8 @@ const UserSignUp = () => {
   const [mobile, setMobile] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
-  const [profilepic, setProfilepic] = useState(null);
-console.log(name,email,mobile,gender,password , profilepic);
+  const [profileimg, setProfileimg] = useState(null);
+console.log(name,email,mobile,gender,password , profileimg);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token, loading } = useSelector((state) => state.auth);
@@ -50,7 +50,7 @@ console.log(name,email,mobile,gender,password , profilepic);
     userData.append("mobile", mobile);
     userData.append("gender", gender);
     userData.append("password", password);
-    userData.append("profilepic", profilepic);
+    userData.append("profileimg", profileimg);
 
     dispatch(signUpUser({ user: userData, navigate }));
   };
@@ -169,7 +169,7 @@ console.log(name,email,mobile,gender,password , profilepic);
                       name="img"
                       accept="image/*"
                       required
-                      onChange={(e) => setProfilepic(e.target.files[0])}
+                      onChange={(e) => setProfileimg(e.target.files[0])}
                     />
                   </Grid>
                 </Grid>

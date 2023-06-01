@@ -14,6 +14,8 @@ export const getAuthorizationHeader = () => `Bearer ${getToken()}`;
 const AuthAPI = axios.create({
   baseURL: baseURL,
   headers: {
+    "Content-Type": "application/json",
+
     Authorization: getAuthorizationHeader(),
   },
 });
@@ -43,6 +45,34 @@ export const RecruiterLoginAPI = (data) =>
   baseAPI.post("/recruiter/login", data);
 export const RecruiterLogoutAPI = () =>
   AuthAPI.get("/recruiter/logout", {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+// jobs
+export const AddJobAPI = (data) =>
+  AuthAPI.post("/job/create", data, {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+export const UpdateJobAPI = (data) =>
+  AuthAPI.post("/job/update", data, {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+export const DeleteJobAPI = (jobId) =>
+  AuthAPI.post(`/job/delete/${jobId}`, {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+export const GetJobByRecruiterAPI = () =>
+  AuthAPI.get("/job/jobbyrecruiter", {
     headers: {
       Authorization: getAuthorizationHeader(),
     },

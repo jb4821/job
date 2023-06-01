@@ -1,12 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { TypeAnimation } from "react-type-animation";
+import { useDispatch, useSelector } from "react-redux";
+import { getJobbyrecruiter } from "../redux/slices/jobSlice";
 // import SearchComponent from "./SearchComponent";
 
-
-
 const HomePage = () => {
+  const dispatch = useDispatch();
+
+  const jobs = useSelector((state) => state.jobs);
+
+  console.log(jobs);
+  useEffect(() => {
+    dispatch(getJobbyrecruiter);
+  });
   return (
     <div>
       <Navbar />
@@ -30,9 +38,7 @@ const HomePage = () => {
                 Search Over 1000 Jobs Today!
               </p>
             </div>
-            <div>
-              {/* <SearchComponent /> */}
-            </div>
+            <div>{/* <SearchComponent /> */}</div>
             <div className="flex flex-wrap justify-start gap-2 mt-5">
               <p className="text-sm md:text-xl font-bold">
                 Trending Jobs Keywords:
@@ -64,6 +70,7 @@ const HomePage = () => {
           {/*.......Banner image end........*/}
         </div>
       </section>
+
       <Footer />
     </div>
   );

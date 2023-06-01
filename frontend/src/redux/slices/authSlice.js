@@ -157,7 +157,7 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.role = null;
-      localStorage.removeItem("token");
+      localStorage.clear();
     },
 
     //recruiter

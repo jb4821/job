@@ -7,7 +7,7 @@ import { logoutUser } from "../redux/slices/authSlice";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { profile } = useSelector((state) => state.auth);
+  const { role, profile } = useSelector((state) => state.auth);
 
   const handleClick = () => {
     localStorage.clear()
@@ -25,25 +25,46 @@ const Navbar = () => {
           </span>
         </div>
         <div className="links">
-          <span>
-            <Link to={"/"}>Home</Link>
-          </span>
-          <span>
-            <Link to={"/jobs"}>Jobs</Link>
-          </span>
-          <span>
-            <Link to={"/about"}>About</Link>
-          </span>
-          <span>
-            {" "}
-            <Link to={"/contect"}>Contact</Link>
-          </span>
-          {profile ? (
-            <ul>
-              <button onClick={handleClick}>Logout</button>
-            </ul>
-          ) : (
+          {role === "user" && (
             <>
+              <span>
+                <Link to={"/"}>Home</Link>
+              </span>
+              <span>
+                <Link to={"/jobs"}>Jobs</Link>
+              </span>
+              <span>
+                <Link to={"/about"}>About</Link>
+              </span>
+              <span>
+                <Link to={"/contect"}>Contact</Link>
+              </span>
+              <span>
+                <button onClick={handleClick}>Logout</button>
+              </span>
+            </>
+          )}
+          {role === "recruiter" && (
+            <>
+              <span>
+                <Link to={"/"}>Home</Link>
+              </span>
+              <span>
+                <Link to={"/dashboard"}>Dashboard</Link>
+              </span>
+              <span>
+                <Link to={"/addjob"}>Add Job</Link>
+              </span>
+              <span>
+                <button onClick={handleClick}>Logout</button>
+              </span>
+            </>
+          )}
+          {!role && (
+            <>
+              <span>
+                <Link to={"/"}>Home</Link>
+              </span>
               <span>
                 <Link to={"/login"}>LogIn </Link>
               </span>

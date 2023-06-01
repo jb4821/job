@@ -77,6 +77,18 @@ const loginRecruiter = async (req, res) => {
   }
 };
 
+// get Recruiter Profile
+const getProfile = (req, res) => {
+  try {
+    const recruiter = req.recruiter;
+    return res.status(200).json({
+      recruiter: recruiter.toJSON(),
+    });
+  } catch (error) {
+    return res.status(404).json({ error: "Recruiter not found." });
+  }
+};
+
 //Logout recruiter
 
 const logoutRecruiter = async (req, res) => {
@@ -92,5 +104,6 @@ const logoutRecruiter = async (req, res) => {
 module.exports = {
   registerRecruiter,
   loginRecruiter,
+  getProfile,
   logoutRecruiter,
 };

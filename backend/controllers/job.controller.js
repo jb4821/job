@@ -89,6 +89,21 @@ const deleteJob = async (req, res) => {
   }
 };
 
+// get job by recruiter
+const getJobbyrecruiter = async (req,res) => {
+  try{
+    const job = await Job.find({
+      recruiterId: req.recruiter._id,
+      isDeleted: false,
+    }).populate({ path: "recruiterId", select: "profileImg company location " });
+    // console.log(job);
+    // console.log(req.recruiter._id);
+    return res.status(200).json({ jobs: job})
+  } catch(error) {
+    return res.status(400).json({error: error.message})
+  }
+}
+
 //get all job
 
 const getAllJob = async (req, res) => {
@@ -223,6 +238,7 @@ module.exports = {
   createJob,
   updateJob,
   deleteJob,
+  getJobbyrecruiter,
   getAllJob,
   getJobByTitle,
   getByCategory,
