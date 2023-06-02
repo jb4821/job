@@ -72,8 +72,15 @@ export const DeleteJobAPI = (jobId) =>
     },
   });
 export const GetJobByRecruiterAPI = () =>
-  AuthAPI.get("/job/jobbyrecruiter", {
+  AuthAPI.get("job/jobbyrecruiter", {
     headers: {
       Authorization: getAuthorizationHeader(),
     },
   });
+
+  export const GetAllJobAPI = () =>
+    AuthAPI.get("job/alljob", {
+      headers: {
+        Authorization: getAuthorizationHeader(),
+      },
+    });

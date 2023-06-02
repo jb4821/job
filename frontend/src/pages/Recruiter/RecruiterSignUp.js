@@ -73,7 +73,7 @@ const RecruiterSignUp = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Recruiter Sign up
             </Typography>
             <form onSubmit={handleSubmit} noValidate>
               <Grid container spacing={2}>

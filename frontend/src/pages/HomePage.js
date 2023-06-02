@@ -4,17 +4,22 @@ import Footer from "../components/Footer";
 import { TypeAnimation } from "react-type-animation";
 import { useDispatch, useSelector } from "react-redux";
 import { getJobbyrecruiter } from "../redux/slices/jobSlice";
+import JobList from "./Job/JobList";
+import Loading from "../components/Loading";
 // import SearchComponent from "./SearchComponent";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
 
-  const jobs = useSelector((state) => state.jobs);
+  const { loading } = useSelector((state) => state.jobs)
+  // const dispatch = useDispatch();
 
-  console.log(jobs);
-  useEffect(() => {
-    dispatch(getJobbyrecruiter);
-  });
+  // const { jobs } = useSelector((state) => state.jobs);
+
+  // console.log(jobs);
+  // useEffect(() => {
+  //   dispatch(getJobbyrecruiter());
+  // },[]);
+
   return (
     <div>
       <Navbar />
@@ -71,6 +76,8 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* {loading? <Loading />: (<JobList />)
+} */}
       <Footer />
     </div>
   );

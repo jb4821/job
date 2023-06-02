@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   position: sticky;
+  z-index: 999;
   background-color: white;
   color: #1dbf73;
 }

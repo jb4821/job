@@ -10,11 +10,11 @@ const Navbar = () => {
   const { role, profile } = useSelector((state) => state.auth);
 
   const handleClick = () => {
-    localStorage.clear()
-    navigate("/")
-  }
+    // console.log("IN Call");
+    localStorage.clear();
+    navigate("/login");
+  };
 
-  
   return (
     <div className="navbar">
       <div className="container">

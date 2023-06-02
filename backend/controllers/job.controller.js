@@ -90,25 +90,55 @@ const deleteJob = async (req, res) => {
 };
 
 // get job by recruiter
-const getJobbyrecruiter = async (req,res) => {
-  try{
+const getJobbyrecruiter = async (req, res) => {
+  try {
     const job = await Job.find({
       recruiterId: req.recruiter._id,
       isDeleted: false,
-    }).populate({ path: "recruiterId", select: "profileImg company location " });
+    }).populate({
+      path: "recruiterId",
+      select: "profileImg company location ",
+    });
     // console.log(job);
     // console.log(req.recruiter._id);
-    return res.status(200).json({ jobs: job})
-  } catch(error) {
-    return res.status(400).json({error: error.message})
+    return res.status(200).json({ jobs: job });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
-}
+};
+
+// const getJobbyrecruiter = async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1; // Current page number
+//     const limit = parseInt(req.query.limit) || 3; // Number of jobs per page
+
+//     const count = await Job.countDocuments({
+//       recruiterId: req.recruiter._id,
+//       isDeleted: false,
+//     });
+
+//     const totalPages = Math.ceil(count / limit);
+//     const skip = (page - 1) * limit;
+
+//     const jobs = await Job.find({
+//       recruiterId: req.recruiter._id,
+//       isDeleted: false,
+//     })
+//       .populate({ path: "recruiterId", select: "profileImg company location" })
+//       .limit(limit)
+//       .skip(skip);
+
+//     return res.status(200).json({ jobs, totalPages });
+//   } catch (error) {
+//     return res.status(400).json({ error: error.message });
+//   }
+// };
 
 //get all job
 
 const getAllJob = async (req, res) => {
   try {
-    const job = await Job.find({ isDeleted: false });
+    const job = await Job.find({ isDeleted: false }).populate({path:"recruiterId" , select: "location company"});
     if (job.length != 0) {
       return res.status(200).json({ job });
     } else {

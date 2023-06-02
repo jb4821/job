@@ -36,7 +36,7 @@ export const signInUser = createAsyncThunk(
   async ({ user, navigate }, { rejectWithValue }) => {
     try {
       const response = await UserLoginAPI(user);
-      navigate("/job");
+      navigate("/jobs");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -50,7 +50,7 @@ export const logoutUser = createAsyncThunk(
     try {
       const response = await UserLogoutAPI();
       console.log(response.data);
-      navigate("/");
+      navigate("/login");
       return response.data;
     } catch (error) {
       console.log(error);
@@ -65,7 +65,7 @@ export const signUpRecruiter = createAsyncThunk(
     try {
       console.log(Object.fromEntries(recruiter));
       const response = await RecruiterRegisterAPI(recruiter);
-      navigate("/jobs");
+      navigate("/dashboard");
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -80,7 +80,7 @@ export const signInRecruiter = createAsyncThunk(
   async ({ recruiter, navigate }, { rejectWithValue }) => {
     try {
       const response = await RecruiterLoginAPI(recruiter);
-      navigate("/job");
+      navigate("/dashboard");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);

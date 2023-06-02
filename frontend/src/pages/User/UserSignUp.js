@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "../../redux/slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,7 +12,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -30,7 +29,7 @@ const UserSignUp = () => {
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
   const [profileimg, setProfileimg] = useState(null);
-console.log(name,email,mobile,gender,password , profileimg);
+  console.log(name, email, mobile, gender, password, profileimg);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token, loading } = useSelector((state) => state.auth);
@@ -41,7 +40,6 @@ console.log(name,email,mobile,gender,password , profileimg);
     }
   }, [token]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = new FormData();
@@ -50,7 +48,7 @@ console.log(name,email,mobile,gender,password , profileimg);
     userData.append("mobile", mobile);
     userData.append("gender", gender);
     userData.append("password", password);
-    userData.append("profileimg", profileimg);
+    userData.append("profileImg", profileimg);
 
     dispatch(signUpUser({ user: userData, navigate }));
   };
@@ -73,7 +71,7 @@ console.log(name,email,mobile,gender,password , profileimg);
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              User Sign up
             </Typography>
             <form onSubmit={handleSubmit} noValidate>
               <Grid container spacing={2}>
@@ -184,7 +182,7 @@ console.log(name,email,mobile,gender,password , profileimg);
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/signin" variant="body2">
+                  <Link to={"/login"} variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

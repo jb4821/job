@@ -14,7 +14,7 @@ const imgFilter = (req, file, cb) => {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
     cb(null, true);
   } else {
-    return cb("Please upload image only", false);
+    cb(null, false);
   }
 };
 
@@ -25,7 +25,7 @@ const fileFilter = (req, file, cb) => {
   ) {
     cb(null, true);
   } else {
-    return cb("Please upload pdf/doc only", false);
+    cb(null, false);
   }
 };
 
@@ -36,7 +36,7 @@ const imgUpload = multer({
     s3: s3,
     bucket: "jobportalbucket1",
     acl: "public-read",
-    metaData: function (req, file, cb) {
+    metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
@@ -51,7 +51,7 @@ const fileUpload = multer({
     s3: s3,
     bucket: "jobportalbucket1",
     acl: "public-read",
-    metaData: function (req, file, cb) {
+    metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {

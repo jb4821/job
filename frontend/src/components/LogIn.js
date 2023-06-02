@@ -30,18 +30,18 @@ const LogIn = () => {
   const navigate = useNavigate();
   const { token, loading, role: yrole } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (yrole === "recruiter") {
-      navigate("/job");
-    } else if (yrole === "user") {
-      navigate("/home");
-    }
-  }, [token, navigate]);
+  // useEffect(() => {
+  //   if (yrole === "recruiter") {
+  //     navigate("/dashboard");
+  //   } else if (yrole === "user") {
+  //     navigate("/");
+  //   }
+  // }, [token, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (role === "user") {
-      dispatch(signInUser({ user: {email, password}, navigate }));
+      dispatch(signInUser({ user: { email, password }, navigate }));
     } else if (role === "recruiter") {
       dispatch(signInRecruiter({ recruiter: { email, password }, navigate }));
     }
