@@ -212,109 +212,174 @@ const RegisterForm = () => {
   });
 
   return (
-    <section className="form">
-      <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            name="name"
-            value={formik.values.name}
-            placeholder="Enter your name"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.name && formik.errors.name && (
-            <div className="error">{formik.errors.name}</div>
-          )}
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={formik.values.email}
-            placeholder="Enter your email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.email && formik.errors.email && (
-            <div className="error">{formik.errors.email}</div>
-          )}
-          <input
-            type="text"
-            className="form-control"
-            id="mobile"
-            name="mobile"
-            value={formik.values.mobile}
-            placeholder="Enter your mobile number"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.mobile && formik.errors.mobile && (
-            <div className="error">{formik.errors.mobile}</div>
-          )}
-          <input
-            type="text"
-            className="form-control"
-            id="gender"
-            name="gender"
-            value={formik.values.gender}
-            placeholder="Enter your gender"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.gender && formik.errors.gender && (
-            <div className="error">{formik.errors.gender}</div>
-          )}
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={formik.values.password}
-            placeholder="Create Password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.password && formik.errors.password && (
-            <div className="error">{formik.errors.password}</div>
-          )}
-          <input
-            type="password"
-            className="form-control"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formik.values.confirmPassword}
-            placeholder="Confrim Password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-            <div className="error">{formik.errors.confirmPassword}</div>
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            className="form-control"
-            id="profileImg"
-            name="profileImg"
-            value={formik.values.profileImg}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.profileImg && formik.errors.profileImg && (
-            <div className="error">{formik.errors.profileImg}</div>
-          )}
+     <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Change Password
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div>
+                    <label htmlFor="oldpassword">Old Password</label>
+                    <input
+                      name="oldpassword"
+                      id="oldpassword"
+                      type="password"
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                    />
+                    <label htmlFor="newpassword">New Password</label>
+                    <input
+                      name="newpassword"
+                      id="newpassword"
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
 
-          {/* Other form fields */}
-
-          <button type="submit" className="btn btn-block">
-            Submit
-          </button>
+                  <button
+                    type="submit"
+                    onClick={handleresetpasswordsubmit}
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Submit
+                  </button>
+                </div>
+            </div>
+          </div>
         </div>
-      </form>
-    </section>
+
+
+
+
+    // <section className="form">
+    //   <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
+    //     <div className="form-group">
+    //       <input
+    //         type="text"
+    //         className="form-control"
+    //         id="name"
+    //         name="name"
+    //         value={formik.values.name}
+    //         placeholder="Enter your name"
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.name && formik.errors.name && (
+    //         <div className="error">{formik.errors.name}</div>
+    //       )}
+    //       <input
+    //         type="email"
+    //         className="form-control"
+    //         id="email"
+    //         name="email"
+    //         value={formik.values.email}
+    //         placeholder="Enter your email"
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.email && formik.errors.email && (
+    //         <div className="error">{formik.errors.email}</div>
+    //       )}
+    //       <input
+    //         type="text"
+    //         className="form-control"
+    //         id="mobile"
+    //         name="mobile"
+    //         value={formik.values.mobile}
+    //         placeholder="Enter your mobile number"
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.mobile && formik.errors.mobile && (
+    //         <div className="error">{formik.errors.mobile}</div>
+    //       )}
+    //       <input
+    //         type="text"
+    //         className="form-control"
+    //         id="gender"
+    //         name="gender"
+    //         value={formik.values.gender}
+    //         placeholder="Enter your gender"
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.gender && formik.errors.gender && (
+    //         <div className="error">{formik.errors.gender}</div>
+    //       )}
+    //       <input
+    //         type="password"
+    //         className="form-control"
+    //         id="password"
+    //         name="password"
+    //         value={formik.values.password}
+    //         placeholder="Create Password"
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.password && formik.errors.password && (
+    //         <div className="error">{formik.errors.password}</div>
+    //       )}
+    //       <input
+    //         type="password"
+    //         className="form-control"
+    //         id="confirmPassword"
+    //         name="confirmPassword"
+    //         value={formik.values.confirmPassword}
+    //         placeholder="Confrim Password"
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+    //         <div className="error">{formik.errors.confirmPassword}</div>
+    //       )}
+    //       <input
+    //         type="file"
+    //         accept="image/*"
+    //         className="form-control"
+    //         id="profileImg"
+    //         name="profileImg"
+    //         value={formik.values.profileImg}
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {formik.touched.profileImg && formik.errors.profileImg && (
+    //         <div className="error">{formik.errors.profileImg}</div>
+    //       )}
+
+    //       {/* Other form fields */}
+
+    //       <button type="submit" className="btn btn-block">
+    //         Submit
+    //       </button>
+    //     </div>
+    //   </form>
+    // </section>
   );
 };
 

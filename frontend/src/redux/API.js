@@ -58,15 +58,15 @@ export const AddJobAPI = (data) =>
     },
   });
 
-export const UpdateJobAPI = (data) =>
-  AuthAPI.post("/job/update", data, {
+export const UpdateJobAPI = (id, data) =>
+  AuthAPI.put(`/job/update/${id}`, data, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },
   });
 
 export const DeleteJobAPI = (jobId) =>
-  AuthAPI.post(`/job/delete/${jobId}`, {
+  AuthAPI.delete(`/job/delete/${jobId}`, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },
@@ -84,3 +84,11 @@ export const GetJobByRecruiterAPI = () =>
         Authorization: getAuthorizationHeader(),
       },
     });
+
+    export const GetJobByIdAPI = (id) =>
+      AuthAPI.get(`job/jobbyid/${id}`, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
+

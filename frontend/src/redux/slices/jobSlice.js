@@ -5,10 +5,12 @@ import {
   DeleteJobAPI,
   GetJobByRecruiterAPI,
   GetAllJobAPI,
+  GetJobByIdAPI,
 } from "../API";
 import { toast } from "react-toastify";
 
 const initialState = {
+  job: null,
   loading: false,
   jobs: null,
   message: null,
@@ -30,9 +32,9 @@ export const addJob = createAsyncThunk(
 
 export const updateJob = createAsyncThunk(
   "job/update",
-  async (data, { rejectWithValue }) => {
+  async ({id, Job}, { rejectWithValue }) => {
     try {
-      const response = await UpdateJobAPI(data);
+      const response = await UpdateJobAPI(id,Job);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -42,9 +44,9 @@ export const updateJob = createAsyncThunk(
 
 export const deleteJob = createAsyncThunk(
   "job/delete",
-  async (jobId, { rejectWithValue }) => {
+  async (_id, { rejectWithValue }) => {
     try {
-      const response = await DeleteJobAPI(jobId);
+      const response = await DeleteJobAPI(_id);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -58,7 +60,7 @@ export const getJobbyrecruiter = createAsyncThunk(
     try {
       const response = await GetJobByRecruiterAPI();
 
-      console.log("fdfs",response.data);
+      console.log("fdfs", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -72,6 +74,19 @@ export const getAllJob = createAsyncThunk(
     try {
       const response = await GetAllJobAPI();
 
+      console.log("ds", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const getJobbyid = createAsyncThunk(
+  "job/jobbyid",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await GetJobByIdAPI(id);
       console.log("ds", response.data);
       return response.data;
     } catch (error) {
@@ -109,16 +124,16 @@ export const jobSlice = createSlice({
     },
     [updateJob.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.jobs = payload.data;
+      state.job = payload.Job;
       state.message = payload.message;
       state.error = null;
-      toast.success("New job added successfully");
+      toast.success("job update successfully");
     },
     [updateJob.rejected]: (state, { payload }) => {
       state.loading = false;
-      state.jobs = null;
+      state.job = null;
       state.message = null;
-      state.error = payload.data.error;
+      state.error = payload.Job.error;
     },
     [deleteJob.pending]: (state) => {
       state.loading = true;
@@ -170,6 +185,24 @@ export const jobSlice = createSlice({
     [getAllJob.rejected]: (state, { payload }) => {
       state.loading = false;
       state.jobs = null;
+      state.message = null;
+      state.error = payload.data.error;
+    },
+    [getJobbyid.pending]: (state) => {
+      state.loading = true;
+      state.job = null;
+      state.message = null;
+      state.error = null;
+    },
+    [getJobbyid.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.job = payload.jobs;
+      state.message = null;
+      state.error = null;
+    },
+    [getJobbyid.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.job = null;
       state.message = null;
       state.error = payload.data.error;
     },

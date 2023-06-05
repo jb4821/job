@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./RecruiterDashboard.css";
 import Navbar from "../../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getJobbyrecruiter } from "../../redux/slices/jobSlice";
+import { deleteJob, getJobbyrecruiter } from "../../redux/slices/jobSlice";
 import Loading from "../../components/Loading";
+import { Link } from "react-router-dom";
 
 const RecruiterDashboard = () => {
   //   const [job, setJob] = useState([]);
@@ -14,7 +15,7 @@ const RecruiterDashboard = () => {
   
   useEffect(() => {
     dispatch(getJobbyrecruiter());
-  }, []);
+  }, [dispatch]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -70,12 +71,12 @@ const RecruiterDashboard = () => {
                     </div>
                     <div className="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                       <div className="d-flex mb-3">
-                        <a className="btn btn-primary me-2" href="">
+                        <Link className="btn btn-primary me-2" href="" onClick={() => {dispatch(deleteJob(job._id))}}>
                           Delete
-                        </a>
-                        <a className="btn btn-primary" href="">
+                        </Link>
+                        <Link className="btn btn-primary" to={`/updatejob/${job._id}`}>
                           Update
-                        </a>
+                        </Link>
                       </div>
                       <small className="text-truncate">
                         <i className="far fa-calendar-alt text-primary me-2"></i>

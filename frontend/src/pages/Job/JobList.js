@@ -1,26 +1,25 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllJob } from '../../redux/slices/jobSlice';
-import Navbar from '../../components/Navbar';
-import Loading from '../../components/Loading';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllJob } from "../../redux/slices/jobSlice";
+import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const JobList = () => {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const { jobs, loading } = useSelector((state) => state.jobs);
+  console.log(jobs);
 
-    const { jobs, loading } = useSelector((state) => state.jobs);
-    console.log(jobs);
+  useEffect(() => {
+    dispatch(getAllJob());
+  }, []);
 
-    useEffect(() => {
-      dispatch(getAllJob());
-    }, []);
-
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const options = { month: "short", day: "numeric", year: "numeric" };
-      const formattedDate = date.toLocaleDateString("en-US", options);
-      return formattedDate;
-    }
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { month: "short", day: "numeric", year: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    return formattedDate;
+  }
   return (
     <>
       <Navbar />
@@ -71,6 +70,7 @@ const JobList = () => {
                         <a className="btn btn-primary me-2" href="">
                           More Details...
                         </a>
+
                         <a className="btn btn-primary" href="">
                           Apply
                         </a>
@@ -89,6 +89,6 @@ const JobList = () => {
       )}
     </>
   );
-}
+};
 
-export default JobList
+export default JobList;

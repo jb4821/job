@@ -50,7 +50,7 @@ const updateJob = async (req, res) => {
           },
           { new: true }
         );
-        return res.status(201).json({ message: "JOb Updated", Job: updatejob });
+        return res.status(201).json({ jobs: "JOb Updated", Job: updatejob });
       } catch (error) {
         return res.status(400).json({ message: error.message });
       }
@@ -138,7 +138,10 @@ const getJobbyrecruiter = async (req, res) => {
 
 const getAllJob = async (req, res) => {
   try {
-    const job = await Job.find({ isDeleted: false }).populate({path:"recruiterId" , select: "location company"});
+    const job = await Job.find({ isDeleted: false }).populate({
+      path: "recruiterId",
+      select: "location company",
+    });
     if (job.length != 0) {
       return res.status(200).json({ job });
     } else {
@@ -146,6 +149,22 @@ const getAllJob = async (req, res) => {
     }
   } catch (error) {
     return res.status(400).json({ message: error.message });
+  }
+};
+
+// get job by id
+
+const getJobbyid = async (req, res) => {
+  try {
+    const job = await Job.find({
+      _id: req.params.id,
+      isDeleted: false,
+    })
+    // console.log(job);
+    // console.log(req.recruiter._id);
+    return res.status(200).json({ jobs: job });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -270,6 +289,7 @@ module.exports = {
   deleteJob,
   getJobbyrecruiter,
   getAllJob,
+  getJobbyid,
   getJobByTitle,
   getByCategory,
   getJobBySalary,
