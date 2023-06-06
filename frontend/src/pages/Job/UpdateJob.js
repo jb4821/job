@@ -22,11 +22,11 @@ const UpdateJob = () => {
   // console.log(id);
   const job = useSelector((state) => state.jobs);
   // console.log(job.job?.[0].category);
-  const [jobTitle, setJobtitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [salary, setSalary] = useState('');
-  const [experience, setExperience] = useState('');
+  const [jobTitle, setJobtitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [salary, setSalary] = useState("");
+  const [experience, setExperience] = useState("");
 
   console.log(jobTitle, category, description, salary, experience);
 
@@ -64,7 +64,8 @@ const UpdateJob = () => {
     const data = JSON.stringify(jobData);
     console.log(data);
     console.log(id);
-    dispatch(updateJob({ id, Job:data }), navigate("/dashboard"));
+    dispatch(updateJob({ id, Job: data }));
+    navigate("/dashboard");
   };
   return (
     <>

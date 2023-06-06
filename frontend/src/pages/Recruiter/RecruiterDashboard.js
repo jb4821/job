@@ -9,13 +9,25 @@ import { Link } from "react-router-dom";
 const RecruiterDashboard = () => {
   //   const [job, setJob] = useState([]);
   const dispatch = useDispatch();
-
-  const { jobs, loading } = useSelector((state) => state.jobs);
-  console.log(jobs)
-  
+  const { jobs, loading, is_update, is_deleted } = useSelector(
+    (state) => state.jobs
+  );
+  console.log(jobs);
+  const [jobList, setjobList] = useState([]);
   useEffect(() => {
     dispatch(getJobbyrecruiter());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getJobbyrecruiter());
+  }, [dispatch, is_update]);
+  useEffect(() => {
+    dispatch(getJobbyrecruiter());
+  }, [dispatch, is_deleted]);
+  useEffect(() => {
+    setjobList(jobs);
+    console.log(jobs);
+  }, [jobs]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -27,14 +39,13 @@ const RecruiterDashboard = () => {
   return (
     <>
       <Navbar />
-      { loading ? (
+      {loading ? (
         <Loading />
       ) : (
         <div className="tab-content">
-          {console.log(jobs)}
           <div id="tab-1" className="tab-pane fade show p-0 active">
             <h1 className="h5 text-center">Your Jobs</h1>
-            {jobs?.map((job, index) => {
+            {jobList?.map((job, index) => {
               return (
                 <div key={index} className="job-item p-4 mb-4">
                   <div className="row g-4">
@@ -71,10 +82,19 @@ const RecruiterDashboard = () => {
                     </div>
                     <div className="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                       <div className="d-flex mb-3">
-                        <Link className="btn btn-primary me-2" href="" onClick={() => {dispatch(deleteJob(job._id))}}>
+                        <Link
+                          className="btn btn-primary me-2"
+                          href=""
+                          onClick={() => {
+                            dispatch(deleteJob(job._id));
+                          }}
+                        >
                           Delete
                         </Link>
-                        <Link className="btn btn-primary" to={`/updatejob/${job._id}`}>
+                        <Link
+                          className="btn btn-primary"
+                          to={`/updatejob/${job._id}`}
+                        >
                           Update
                         </Link>
                       </div>

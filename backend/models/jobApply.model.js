@@ -17,6 +17,12 @@ const jobApplySchema = new mongoose.Schema({
     required: true,
   },
 
+  status: {
+    type: String,
+    default: "pending",
+    enum: ["pending", "inprogress", "completed", "cancelled"],
+  },
+
   applyedAt: {
     type: Date,
     default: Date.now,

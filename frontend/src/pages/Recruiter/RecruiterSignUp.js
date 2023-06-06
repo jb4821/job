@@ -49,7 +49,7 @@ const RecruiterSignUp = () => {
     recruiterData.append("company", company);
     recruiterData.append("location", location);
     recruiterData.append("password", password);
-    recruiterData.append("profilepic", profilepic);
+    recruiterData.append("profileImg", profilepic);
     console.log(profilepic);
 
     dispatch(signUpRecruiter({ recruiter: recruiterData, navigate }));

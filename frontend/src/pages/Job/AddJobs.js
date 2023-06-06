@@ -38,7 +38,7 @@ const AddJobs = () => {
       experience,
     };
     const data = JSON.stringify(jobData);
-    dispatch(addJob(data), navigate("dashboard"));
+    dispatch(addJob(data), navigate("/dashboard"));
     // jobData.append("jobtitle", jobtitle);
     // jobData.append("category", category);
     // jobData.append("description", description);
@@ -48,7 +48,7 @@ const AddJobs = () => {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />

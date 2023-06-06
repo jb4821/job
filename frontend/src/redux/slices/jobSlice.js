@@ -10,11 +10,13 @@ import {
 import { toast } from "react-toastify";
 
 const initialState = {
-  job: null,
+  job: [],
   loading: false,
-  jobs: null,
-  message: null,
+  jobs: [],
+  message: "",
   error: null,
+  is_update: false,
+  is_deleted: false,
 };
 
 export const addJob = createAsyncThunk(
@@ -32,9 +34,9 @@ export const addJob = createAsyncThunk(
 
 export const updateJob = createAsyncThunk(
   "job/update",
-  async ({id, Job}, { rejectWithValue }) => {
+  async ({ id, Job }, { rejectWithValue }) => {
     try {
-      const response = await UpdateJobAPI(id,Job);
+      const response = await UpdateJobAPI(id, Job);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -59,8 +61,6 @@ export const getJobbyrecruiter = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await GetJobByRecruiterAPI();
-
-      console.log("fdfs", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -106,7 +106,7 @@ export const jobSlice = createSlice({
     },
     [addJob.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.jobs = payload.job;
+      state.jobs.push(payload.job);
       state.message = payload.message;
       state.error = null;
       toast.success("New job added successfully");
@@ -127,6 +127,7 @@ export const jobSlice = createSlice({
       state.job = payload.Job;
       state.message = payload.message;
       state.error = null;
+      state.is_update = true;
       toast.success("job update successfully");
     },
     [updateJob.rejected]: (state, { payload }) => {
@@ -144,6 +145,7 @@ export const jobSlice = createSlice({
       state.loading = false;
       state.message = payload.message;
       state.error = null;
+      state.is_deleted = true;
       toast.success("Job deleted successfully.");
     },
     [deleteJob.rejected]: (state, { payload }) => {

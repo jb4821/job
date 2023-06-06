@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +8,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { role, profile } = useSelector((state) => state.auth);
+
+  const [menu, setmenu] = useState(false);
+
+  const handleShowMenu = () => {
+    setmenu((prevstate) => !prevstate);
+  };
 
   const handleClick = () => {
     // console.log("IN Call");
@@ -42,6 +48,22 @@ const Navbar = () => {
               <span>
                 <button onClick={handleClick}>Logout</button>
               </span>
+              <a>
+                <img
+                  onClick={handleShowMenu}
+                  src={profile?.profileImg}
+                  width={50}
+                  height={50}
+                  alt=""
+                />
+              </a>
+              {menu && (
+                <div className="manageandlogin">
+                  <Link to={"/userprofile"}>Profile</Link>
+                  {/* <br /> */}
+                  <a onClick={handleClick}>Logout</a>
+                </div>
+              )}
             </>
           )}
           {role === "recruiter" && (
@@ -58,6 +80,26 @@ const Navbar = () => {
               <span>
                 <button onClick={handleClick}>Logout</button>
               </span>
+              <a>
+                <img
+                  onClick={handleShowMenu}
+                  src={profile?.profileImg}
+                  width={50}
+                  height={50}
+                  alt=""
+                />
+              </a>
+              {menu && (
+                <div className="manageandlogin">
+                  <Link to={"/profile"}>Profile</Link>
+                  <br />
+                  <Link to={"/profile"}>Profile</Link>
+                  <br />
+                  <Link to={"/profile"}>Profile</Link>
+                  <br />
+                  <a onClick={handleClick}>Logout</a>
+                </div>
+              )}
             </>
           )}
           {!role && (

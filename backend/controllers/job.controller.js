@@ -140,7 +140,7 @@ const getAllJob = async (req, res) => {
   try {
     const job = await Job.find({ isDeleted: false }).populate({
       path: "recruiterId",
-      select: "location company",
+      select: "profileImg location company",
     });
     if (job.length != 0) {
       return res.status(200).json({ job });
