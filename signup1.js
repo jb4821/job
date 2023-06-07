@@ -384,3 +384,41 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
+
+// search
+
+// const sanitizedString = (string) => {
+//   if (!string) {
+//     return ""; // Return an empty string if the parameter is undefined or null
+//   }
+//   return string.replace(/[^a-zA-Z0-9]/g, " ");
+// };
+
+// const getSearchResult = async (req, res) => {
+//   try {
+//     const { title, category, salary, time } = req.query;
+//     // const threshold = new Date();
+//     // threshold.setHours(threshold.getHours() - time);
+//     // console.log(sanitizedString(keyword));
+
+//     const searchResult = await Job.find({
+//       $or: [
+//         { jobTitle: { $regex: sanitizedString(title), $options: "i" }, isDeleted: false },
+//         { category: { $regex: sanitizedString(category), $options: "i" }, isDeleted: false },
+//         { salary: { $regex: sanitizedString(salary), $options: "i" }, isDeleted: false },
+//         // { createdAt: { $gte: threshold }, isDeleted: false },
+//         // { category: { $regex: category, } },
+//       ],
+//     });
+
+//     if(searchResult.length !==0){
+//       return res.status(200).json({ search: searchResult });
+//     }else {
+//       return res.status(400).json({message: "there is no jobs found."})
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(400).json({error: error.message})
+//   }
+// };

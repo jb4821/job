@@ -180,7 +180,7 @@ export const jobSlice = createSlice({
     },
     [getAllJob.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.jobs = payload.job;
+      state.jobs = payload.jobs;
       state.message = null;
       state.error = null;
     },

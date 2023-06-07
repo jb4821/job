@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJob } from "../../redux/slices/jobSlice";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer"
 import Loading from "../../components/Loading";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Search from "../../components/Search";
+import { filterData } from "../../redux/slices/searchSlice";
 
 const JobList = () => {
   const dispatch = useDispatch();
 
-  const { jobs, loading } = useSelector((state) => state.jobs);
+  const { jobs, loading } = useSelector((state) => state.search);
   console.log(jobs);
 
   const [openModal, setOpenModal] = useState({});
@@ -45,9 +48,9 @@ const JobList = () => {
     handleClose();
   };
 
-  useEffect(() => {
-    dispatch(getAllJob());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(filterData());
+  // }, []);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -59,12 +62,13 @@ const JobList = () => {
   return (
     <>
       <Navbar />
+      <Search />
       {loading ? (
         <Loading />
       ) : (
         <>
           <div className="tab-content">
-            {console.log(jobs)}
+            {console.log("hell",jobs)}
             <div id="tab-1" className="tab-pane fade show p-0 active">
               <h1 className="h5 text-center">Job List</h1>
               {jobs?.map((job, index) => {
@@ -237,6 +241,7 @@ const JobList = () => {
           </div>
         </>
       )}
+      <Footer />
     </>
   );
 };

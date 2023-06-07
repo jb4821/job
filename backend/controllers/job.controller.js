@@ -136,16 +136,27 @@ const getJobbyrecruiter = async (req, res) => {
 
 //get all job
 
+
 const getAllJob = async (req, res) => {
+  const query = req.query;
+  console.log(query);
+  const filters = {
+    ...(query.title && { jobTitle: { $regex: query.title, $options: "i" } }),
+    ...(query.category && {
+      category: { $regex: query.category, $options: "i" },
+    }),
+    ...(query.salary && { salary: { $regex: query.salary, $options: "i" } }),
+    
+  };
   try {
-    const job = await Job.find({ isDeleted: false }).populate({
+    const jobs = await Job.find({ isDeleted: false, ...filters }).populate({
       path: "recruiterId",
       select: "profileImg location company",
     });
-    if (job.length != 0) {
-      return res.status(200).json({ job });
+    if (jobs.length > 0) {
+      return res.status(200).json({ jobs });
     } else {
-      return res.status(404).json({ message: "Job not found!" });
+      return res.status(404).json({ message: "No jobs found!" });
     }
   } catch (error) {
     return res.status(400).json({ message: error.message });
@@ -159,11 +170,52 @@ const getJobbyid = async (req, res) => {
     const job = await Job.find({
       _id: req.params.id,
       isDeleted: false,
-    })
+    });
     // console.log(job);
     // console.log(req.recruiter._id);
     return res.status(200).json({ jobs: job });
   } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+// search
+
+const getSearchResult = async (req, res) => {
+  try {
+    const { title, category, salary, time } = req.query;
+
+    const sanitizedString = (string) => {
+      if (!string) {
+        return "";
+      }
+      return string.replace(/[^a-zA-Z0-9]/g, " ");
+    };
+
+    const searchResult = await Job.find({
+      $or: [
+        {
+          jobTitle: { $regex: sanitizedString(title), $options: "i" },
+          isDeleted: false,
+        },
+        {
+          category: { $regex: sanitizedString(category), $options: "i" },
+          isDeleted: false,
+        },
+        {
+          salary: { $regex: sanitizedString(salary), $options: "i" },
+          isDeleted: false,
+        },
+      ],
+    });
+
+    if (searchResult.length !== 0) {
+      return res.status(200).json({ search: searchResult });
+    } else {
+      return res.status(400).json({ message: "There are no jobs found." });
+    }
+  } catch (error) {
+    console.log(error);
     return res.status(400).json({ error: error.message });
   }
 };
@@ -295,4 +347,5 @@ module.exports = {
   getJobBySalary,
   getJobByTime,
   getJobsByLocation,
+  getSearchResult,
 };

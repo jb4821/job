@@ -92,3 +92,9 @@ export const GetJobByRecruiterAPI = () =>
         },
       });
 
+      export const GetJobByFilter = ({title,category,salary}) =>
+        AuthAPI.get(`job/alljob?title=${title}&category=${category}&salary=${salary}`, {
+          headers: {
+            Authorization: getAuthorizationHeader(),
+          },
+        });
