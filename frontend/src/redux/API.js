@@ -22,7 +22,7 @@ const AuthAPI = axios.create({
 
 const formAPI = axios.create({
   baseURL: baseURL,
-  withCredentials: true,
+  // withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
   },
@@ -78,23 +78,39 @@ export const GetJobByRecruiterAPI = () =>
     },
   });
 
-  export const GetAllJobAPI = () =>
-    AuthAPI.get("job/alljob", {
+export const GetAllJobAPI = () =>
+  AuthAPI.get("job/alljob", {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+export const GetJobByIdAPI = (id) =>
+  AuthAPI.get(`job/jobbyid/${id}`, {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+export const GetJobByFilter = ({ title, category, salary }) =>
+  AuthAPI.get(
+    `job/alljob?title=${title}&category=${category}&salary=${salary}`,
+    {
       headers: {
         Authorization: getAuthorizationHeader(),
       },
-    });
+    }
+  );
+export const ApplyJob = () =>
+  formAPI.post("jobApply/apply", {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
 
-    export const GetJobByIdAPI = (id) =>
-      AuthAPI.get(`job/jobbyid/${id}`, {
-        headers: {
-          Authorization: getAuthorizationHeader(),
-        },
-      });
-
-      export const GetJobByFilter = ({title,category,salary}) =>
-        AuthAPI.get(`job/alljob?title=${title}&category=${category}&salary=${salary}`, {
-          headers: {
-            Authorization: getAuthorizationHeader(),
-          },
-        });
+export const GetAppliedJobbyUser = () =>
+  AuthAPI.get("jobApply/byuser", {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });

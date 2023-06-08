@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Job = require("./job.model");
+// const Job = require("./job.model");
 
 const jobApplySchema = new mongoose.Schema({
   userId: {
@@ -7,9 +7,9 @@ const jobApplySchema = new mongoose.Schema({
     ref: "User",
   },
 
-  recruiterId: {
+  jobId: {
     type: mongoose.Types.ObjectId,
-    ref: "Recruiter",
+    ref: "Job",
   },
 
   resume: {

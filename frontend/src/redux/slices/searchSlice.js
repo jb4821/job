@@ -25,6 +25,7 @@ export const filterData = createAsyncThunk(
   }
 );
 
+
 export const searchSlice = createSlice({
   name: "search",
   initialState,
@@ -52,7 +53,7 @@ export const searchSlice = createSlice({
     },
     [filterData.rejected]: (state, { payload }) => {
       state.loading = false;
-      state.error = payload;
+      state.error = payload.error;
     },
   },
 });

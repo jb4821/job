@@ -6,6 +6,8 @@ import {
   GetJobByRecruiterAPI,
   GetAllJobAPI,
   GetJobByIdAPI,
+  ApplyJob,
+  GetAppliedJobbyUser,
 } from "../API";
 import { toast } from "react-toastify";
 
@@ -13,6 +15,7 @@ const initialState = {
   job: [],
   loading: false,
   jobs: [],
+  appliedjobs: [],
   message: "",
   error: null,
   is_update: false,
@@ -88,6 +91,34 @@ export const getJobbyid = createAsyncThunk(
     try {
       const response = await GetJobByIdAPI(id);
       console.log("ds", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const applyforJob = createAsyncThunk(
+  "job/jobbyid",
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      // const data = {userId, jobId, resume}
+      const response = await ApplyJob(data);
+      console.log("fs", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const getUserAppliedJob = createAsyncThunk(
+  "jobApplied/byuser",
+  async (_, { rejectWithValue }) => {
+    try {
+      // const data = {userId, jobId, resume}
+      const response = await GetAppliedJobbyUser();
+      console.log("fs", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -207,6 +238,43 @@ export const jobSlice = createSlice({
       state.job = null;
       state.message = null;
       state.error = payload.data.error;
+    },
+    [applyforJob.pending]: (state) => {
+      state.loading = true;
+      state.job = null;
+      state.message = null;
+      state.error = null;
+    },
+    [applyforJob.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.job = payload.application;
+      state.message = null;
+      state.error = null;
+      toast.success("Applied successfully");
+    },
+    [applyforJob.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.appliedjobs = null;
+      state.message = null;
+      state.error = payload.error;
+    },
+    [getUserAppliedJob.pending]: (state) => {
+      state.loading = true;
+      state.appliedjobs = null;
+      state.message = null;
+      state.error = null;
+    },
+    [getUserAppliedJob.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appliedjobs = payload.applications;
+      state.message = null;
+      state.error = null;
+    },
+    [getUserAppliedJob.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.job = null;
+      state.message = null;
+      state.error = payload.error;
     },
   },
 });

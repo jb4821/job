@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllJob } from "../../redux/slices/jobSlice";
+import { applyforJob, getAllJob } from "../../redux/slices/jobSlice";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer"
 import Loading from "../../components/Loading";
@@ -10,21 +10,28 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Search from "../../components/Search";
 import { filterData } from "../../redux/slices/searchSlice";
+import { useParams } from "react-router-dom";
 
 const JobList = () => {
+//   const { id } = useParams();
+// console.log("id", id);
   const dispatch = useDispatch();
-
+  const id = useSelector((state) => state.auth.profile._id)
+console.log("id", id);
   const { jobs, loading } = useSelector((state) => state.search);
   console.log(jobs);
 
   const [openModal, setOpenModal] = useState({});
-  const [resumeFile, setResumeFile] = useState(null);
+  const [applyModal, setApplyModal] = useState({});
+  const [selectedJob, setSelectedJob] = useState('');
+   const [resumeFile, setResumeFile] = useState(null);
 
   const handleOpen = (jobId) => {
     setOpenModal((prevState) => ({
       ...prevState,
       [jobId]: true,
     }));
+    
   };
 
   const handleClose = (jobId) => {
@@ -32,20 +39,46 @@ const JobList = () => {
       ...prevState,
       [jobId]: false,
     }));
+   
   };
 
-  const handleUpload = (event) => {
-    const file = event.target.files[0];
+  const handleApplyOpen = (jobId) => {
+    setApplyModal((prevState) => ({
+      ...prevState,
+      [jobId]: true,
+    }));
+    setSelectedJob(jobId);
+  }
+
+  const handleApplyClose = (jobId) => {
+   setApplyModal((prevState) => ({
+     ...prevState,
+     [jobId]: false,
+   }));
+   setSelectedJob("");
+  };
+
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
     setResumeFile(file);
   };
-
+ 
   const handleApply = () => {
-    // Perform apply logic with resumeFile
-    console.log("Resume file:", resumeFile);
-    // Reset resumeFile state
-    setResumeFile(null);
+    // Perform logic for applying to the job using the selectedJob and resumeFile
+    const FileData = new FormData();
+    FileData.append("userId",id)
+    FileData.append("jobId",selectedJob)
+    FileData.append("resume", resumeFile)
+    dispatch(applyforJob({data:FileData}))
+    console.log("Selected Job ID:", selectedJob);
+    console.log("Resume File:", resumeFile);
+
+    // Reset state variables
+    // setSelectedJob("");
+    // setResumeFile(null);
+
     // Close the modal
-    handleClose();
+    handleApplyClose(selectedJob);
   };
 
   // useEffect(() => {
@@ -73,6 +106,7 @@ const JobList = () => {
               <h1 className="h5 text-center">Job List</h1>
               {jobs?.map((job, index) => {
                 const isModalOpen = openModal[job._id] || false;
+                const isApplyModal = applyModal[job._id] || false;
                 return (
                   <div key={index} className="job-item p-4 mb-4">
                     <div className="row g-4">
@@ -180,7 +214,7 @@ const JobList = () => {
 
                           <Button
                             variant="contained"
-                            onClick={handleOpen}
+                            onClick={() => handleApplyOpen(job._id)}
                             key={job._id}
                             sx={{
                               backgroundColor: "#3CCF56",
@@ -193,10 +227,9 @@ const JobList = () => {
                           >
                             Apply
                           </Button>
-
                           <Modal
-                            // open={open}
-                            onClose={handleClose}
+                            open={isApplyModal}
+                            onClose={() => handleApplyClose(job._id)}
                             aria-labelledby="modal-modal-title"
                             aria-describedby="modal-modal-description"
                           >
@@ -209,19 +242,35 @@ const JobList = () => {
                                 width: 400,
                                 bgcolor: "#FFFFFF",
                                 border: "2px solid #000",
-                                boxShadow: 24,
+                                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                                 p: 4,
                                 borderRadius: "8px",
                               }}
                             >
-                              <Typography variant="h6" component="h2">
-                                Apply for the job
+                              <Typography
+                                id="modal-modal-title"
+                                variant="h6"
+                                component="h2"
+                              >
+                                Upload Resume
                               </Typography>
-                              <input type="file" onChange={handleUpload} />
+                              <input
+                                type="file"
+                                id="file"
+                                accept=".pdf,.doc,.docx"
+                                onChange={handleUpload}
+                              />
                               <Button
                                 variant="contained"
                                 onClick={handleApply}
-                                sx={{ marginTop: "10px" }}
+                                sx={{
+                                  backgroundColor: "#3CCF56",
+                                  color: "#FFFFFF",
+                                  padding: "10px 20px",
+                                  borderRadius: "5px",
+                                  fontWeight: "bold",
+                                  marginTop: "10px",
+                                }}
                               >
                                 Submit
                               </Button>

@@ -60,7 +60,9 @@ const Navbar = () => {
               {menu && (
                 <div className="manageandlogin">
                   <Link to={"/userprofile"}>Profile</Link>
-                  {/* <br /> */}
+                  <br />
+                  <Link to={"/userapplication"}>Applied Job</Link>
+                  <br />
                   <a onClick={handleClick}>Logout</a>
                 </div>
               )}
@@ -93,7 +95,7 @@ const Navbar = () => {
                 <div className="manageandlogin">
                   <Link to={"/profile"}>Profile</Link>
                   <br />
-                  <Link to={"/profile"}>Profile</Link>
+                  <Link to={"/recruiterapplication"}>Applications</Link>
                   <br />
                   <Link to={"/profile"}>Profile</Link>
                   <br />
