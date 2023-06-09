@@ -25,6 +25,8 @@ const formAPI = axios.create({
   // withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
+
+    Authorization: getAuthorizationHeader(),
   },
 });
 
@@ -101,8 +103,8 @@ export const GetJobByFilter = ({ title, category, salary }) =>
       },
     }
   );
-export const ApplyJob = () =>
-  formAPI.post("jobApply/apply", {
+export const ApplyJob = (data) =>
+  formAPI.post("jobApply/apply", data, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },
@@ -110,6 +112,21 @@ export const ApplyJob = () =>
 
 export const GetAppliedJobbyUser = () =>
   AuthAPI.get("jobApply/byuser", {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+
+export const GetJobApplicationbyRecruiter = () =>
+  AuthAPI.get("jobApply/byrecruiter", {
+    headers: {
+      Authorization: getAuthorizationHeader(),
+    },
+  });
+
+export const UpdateStatus = (id, status) =>
+  AuthAPI.put(`jobApply/updatestatus/${id}`, status, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },

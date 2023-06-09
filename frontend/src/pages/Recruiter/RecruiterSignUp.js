@@ -35,7 +35,7 @@ const RecruiterSignUp = () => {
   const { token, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token) {
+    if (!token) {
       navigate("/");
     }
   }, [token]);
@@ -175,8 +175,7 @@ const RecruiterSignUp = () => {
                       accept="image/*"
                       required
                       onChange={(e) => setProfilepic(e.target.files[0])}
-                      />
-                      
+                    />
                   </Grid>
                 </Grid>
               </Grid>

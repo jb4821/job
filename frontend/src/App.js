@@ -16,6 +16,7 @@ import UpdateJob from "./pages/Job/UpdateJob";
 import UserProfile from "./pages/User/UserProfile";
 import RecruiterApplication from "./pages/Recruiter/RecruiterApplication";
 import UserApplication from "./pages/User/UserApplication";
+import RecruiterProfile from "./pages/Recruiter/RecruiterProfile";
 
 function App() {
   const { token, role } = useSelector((state) => state.auth);
@@ -27,6 +28,7 @@ function App() {
         <Route path="/userprofile" element={<UserProfile />}></Route>
         <Route path="/userapplication" element={<UserApplication />}></Route>
         <Route path="/recruitersignup" element={<RecruiterSignUp />}></Route>
+        <Route path="/recruiterprofile" element={<RecruiterProfile />}></Route>
         <Route path="/login" element={<LogIn />}></Route>
         <Route path="/addjob" element={<AddJobs />}></Route>
         <Route path="/updatejob/:id" element={<UpdateJob />}></Route>

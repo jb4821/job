@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateJob, getJobbyid } from "../../redux/slices/jobSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const defaultTheme = createTheme();
 
@@ -71,7 +72,7 @@ const UpdateJob = () => {
     <>
       <Navbar />
       {!job.job || job.job.length === 0 ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <>
           {" "}

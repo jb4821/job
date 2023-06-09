@@ -75,6 +75,7 @@ const HomePage = () => {
           {/*.......Banner image end........*/}
         </div>
       </section>
+      <JobList /> 
 
       {/* {loading? <Loading />: (<JobList />)
 } */}

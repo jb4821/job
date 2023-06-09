@@ -17,21 +17,26 @@ const Navbar = () => {
 
   const handleClick = () => {
     // console.log("IN Call");
+    // dispatch(logoutUser());
     localStorage.clear();
     navigate("/login");
   };
+
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : null;
+
 
   return (
     <div className="navbar">
       <div className="container">
         <div className="logo">
           <span className="text">
-            {" "}
             <Link to={"/"}>Job Recruiter</Link>{" "}
           </span>
         </div>
         <div className="links">
-          {role === "user" && (
+          {token && role === "user" && (
             <>
               <span>
                 <Link to={"/"}>Home</Link>
@@ -45,9 +50,7 @@ const Navbar = () => {
               <span>
                 <Link to={"/contect"}>Contact</Link>
               </span>
-              <span>
-                <button onClick={handleClick}>Logout</button>
-              </span>
+
               <a>
                 <img
                   onClick={handleShowMenu}
@@ -68,7 +71,7 @@ const Navbar = () => {
               )}
             </>
           )}
-          {role === "recruiter" && (
+          {token && role === "recruiter" && (
             <>
               <span>
                 <Link to={"/"}>Home</Link>
@@ -79,9 +82,7 @@ const Navbar = () => {
               <span>
                 <Link to={"/addjob"}>Add Job</Link>
               </span>
-              <span>
-                <button onClick={handleClick}>Logout</button>
-              </span>
+
               <a>
                 <img
                   onClick={handleShowMenu}
@@ -93,18 +94,16 @@ const Navbar = () => {
               </a>
               {menu && (
                 <div className="manageandlogin">
-                  <Link to={"/profile"}>Profile</Link>
+                  <Link to={"/recruiterprofile"}>Profile</Link>
                   <br />
                   <Link to={"/recruiterapplication"}>Applications</Link>
-                  <br />
-                  <Link to={"/profile"}>Profile</Link>
                   <br />
                   <a onClick={handleClick}>Logout</a>
                 </div>
               )}
             </>
           )}
-          {!role && (
+          {!token && (
             <>
               <span>
                 <Link to={"/"}>Home</Link>

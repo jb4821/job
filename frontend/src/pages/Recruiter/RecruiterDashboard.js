@@ -16,14 +16,14 @@ const RecruiterDashboard = () => {
   const [jobList, setjobList] = useState([]);
   useEffect(() => {
     dispatch(getJobbyrecruiter());
-  }, [dispatch]);
+  }, [dispatch, is_update, is_deleted]);
 
-  useEffect(() => {
-    dispatch(getJobbyrecruiter());
-  }, [dispatch, is_update]);
-  useEffect(() => {
-    dispatch(getJobbyrecruiter());
-  }, [dispatch, is_deleted]);
+  // useEffect(() => {
+  //   dispatch(getJobbyrecruiter());
+  // }, [dispatch, is_update]);
+  // useEffect(() => {
+  //   dispatch(getJobbyrecruiter());
+  // }, [dispatch, is_deleted]);
   useEffect(() => {
     setjobList(jobs);
     console.log(jobs);
@@ -56,6 +56,7 @@ const RecruiterDashboard = () => {
                         alt=""
                         style={{ width: "80px", height: "80px" }}
                       />
+                      {console.log(job.recruiterId.profileImg)}
                       <div className="text-start ps-4">
                         <h5 className="mb-3">{job.jobTitle}</h5>
                         <span className="text-truncate me-3">

@@ -8,6 +8,8 @@ import {
   GetJobByIdAPI,
   ApplyJob,
   GetAppliedJobbyUser,
+  GetJobApplicationbyRecruiter,
+  UpdateStatus,
 } from "../API";
 import { toast } from "react-toastify";
 
@@ -26,7 +28,7 @@ export const addJob = createAsyncThunk(
   "job/create",
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data);
+      // console.log(data);
       const response = await AddJobAPI(data);
       return response.data;
     } catch (error) {
@@ -77,7 +79,7 @@ export const getAllJob = createAsyncThunk(
     try {
       const response = await GetAllJobAPI();
 
-      console.log("ds", response.data);
+      // console.log("ds", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -90,7 +92,7 @@ export const getJobbyid = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await GetJobByIdAPI(id);
-      console.log("ds", response.data);
+      // console.log("ds", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -99,12 +101,12 @@ export const getJobbyid = createAsyncThunk(
 );
 
 export const applyforJob = createAsyncThunk(
-  "job/jobbyid",
+  "jobApply/apply",
   async ({ data }, { rejectWithValue }) => {
     try {
       // const data = {userId, jobId, resume}
       const response = await ApplyJob(data);
-      console.log("fs", response.data);
+      // console.log("fs", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -113,12 +115,37 @@ export const applyforJob = createAsyncThunk(
 );
 
 export const getUserAppliedJob = createAsyncThunk(
-  "jobApplied/byuser",
+  "jobApply/byuser",
   async (_, { rejectWithValue }) => {
     try {
-      // const data = {userId, jobId, resume}
       const response = await GetAppliedJobbyUser();
-      console.log("fs", response.data);
+      // console.log("fs", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const getRecruiterApplication = createAsyncThunk(
+  "jobApply/byrecruiter",
+  async (_, { rejectWithValue }) => {
+    try {
+     
+      const response = await GetJobApplicationbyRecruiter();
+      // console.log("fs", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const updateStatus = createAsyncThunk(
+  "jobApply/updatestatus",
+  async ({ id, status }, { rejectWithValue }) => {
+    try {
+      const response = await UpdateStatus(id, status);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -241,13 +268,13 @@ export const jobSlice = createSlice({
     },
     [applyforJob.pending]: (state) => {
       state.loading = true;
-      state.job = null;
+      // state.job = null;
       state.message = null;
       state.error = null;
     },
     [applyforJob.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.job = payload.application;
+      // state.job = payload.application;
       state.message = null;
       state.error = null;
       toast.success("Applied successfully");
@@ -273,6 +300,41 @@ export const jobSlice = createSlice({
     [getUserAppliedJob.rejected]: (state, { payload }) => {
       state.loading = false;
       state.job = null;
+      state.message = null;
+      state.error = payload.error;
+    },
+    [getRecruiterApplication.pending]: (state) => {
+      state.loading = true;
+      state.appliedjobs = null;
+      state.message = null;
+      state.error = null;
+    },
+    [getRecruiterApplication.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appliedjobs = payload.applications;
+      state.message = null;
+      state.error = null;
+    },
+    [getRecruiterApplication.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.job = null;
+      state.message = null;
+      state.error = payload.error;
+    },
+    [updateStatus.pending]: (state) => {
+      state.loading = true;
+      state.message = null;
+      state.error = null;
+    },
+    [updateStatus.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.message = payload.message;
+      state.error = null;
+      // state.is_update = true;
+      toast.success("status update successfully");
+    },
+    [updateStatus.rejected]: (state, { payload }) => {
+      state.loading = false;
       state.message = null;
       state.error = payload.error;
     },

@@ -207,7 +207,7 @@ const getSearchResult = async (req, res) => {
           isDeleted: false,
         },
       ],
-    });
+    }).sort({ createdAt: -1 });
 
     if (searchResult.length !== 0) {
       return res.status(200).json({ search: searchResult });

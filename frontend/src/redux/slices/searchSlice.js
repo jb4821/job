@@ -16,7 +16,7 @@ export const filterData = createAsyncThunk(
   async ({ title, category, salary }, { rejectWithValue }) => {
     try {
       const response = await GetJobByFilter({ title, category, salary });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("ssdsd", error);

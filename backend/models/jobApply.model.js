@@ -12,6 +12,11 @@ const jobApplySchema = new mongoose.Schema({
     ref: "Job",
   },
 
+  recruiterId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Recruiter",
+  },
+
   resume: {
     type: String,
     required: true,
@@ -20,7 +25,7 @@ const jobApplySchema = new mongoose.Schema({
   status: {
     type: String,
     default: "pending",
-    enum: ["pending", "inprogress", "completed", "cancelled"],
+    enum: ["pending","accepted", "rejected"],
   },
 
   applyedAt: {

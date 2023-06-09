@@ -35,7 +35,7 @@ const UserSignUp = () => {
   const { token, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token) {
+    if (!token) {
       navigate("/");
     }
   }, [token]);

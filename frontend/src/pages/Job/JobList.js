@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applyforJob, getAllJob } from "../../redux/slices/jobSlice";
 import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer"
+import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -11,27 +11,40 @@ import Modal from "@mui/material/Modal";
 import Search from "../../components/Search";
 import { filterData } from "../../redux/slices/searchSlice";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import SearchJob from "../../components/Search";
 
 const JobList = () => {
-//   const { id } = useParams();
-// console.log("id", id);
+  //   const { id } = useParams();
+  // console.log("id", id);
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.auth.profile._id)
-console.log("id", id);
+  const {profile, role} = useSelector((state) => state.auth);
+  // console.log("id", id);
   const { jobs, loading } = useSelector((state) => state.search);
-  console.log(jobs);
+  // console.log(jobs);
+
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : null;
+
+  const sortedJobs = [...jobs].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
 
   const [openModal, setOpenModal] = useState({});
   const [applyModal, setApplyModal] = useState({});
-  const [selectedJob, setSelectedJob] = useState('');
-   const [resumeFile, setResumeFile] = useState(null);
+  const [selectedJob, setSelectedJob] = useState("");
+  const [resumeFile, setResumeFile] = useState(null);
+  const [selectedJobdetails, setSelectedJobDetails] = useState(null);
+
+  // console.log(selectedJobdetails);
+  // console.log("recruiter",selectedJobdetails.recruiterId._id);
 
   const handleOpen = (jobId) => {
     setOpenModal((prevState) => ({
       ...prevState,
       [jobId]: true,
     }));
-    
   };
 
   const handleClose = (jobId) => {
@@ -39,45 +52,50 @@ console.log("id", id);
       ...prevState,
       [jobId]: false,
     }));
-   
   };
 
   const handleApplyOpen = (jobId) => {
+    if (!token || role !== "user") {
+      toast.error("You are not authorized");
+      return;
+    }
     setApplyModal((prevState) => ({
       ...prevState,
       [jobId]: true,
     }));
     setSelectedJob(jobId);
-  }
+    setSelectedJobDetails(jobs.find((job) => job._id === jobId));
+  };
 
   const handleApplyClose = (jobId) => {
-   setApplyModal((prevState) => ({
-     ...prevState,
-     [jobId]: false,
-   }));
-   setSelectedJob("");
+    setApplyModal((prevState) => ({
+      ...prevState,
+      [jobId]: false,
+    }));
+    setSelectedJob("");
   };
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
     setResumeFile(file);
   };
- 
+
   const handleApply = () => {
-    // Perform logic for applying to the job using the selectedJob and resumeFile
+    
     const FileData = new FormData();
-    FileData.append("userId",id)
-    FileData.append("jobId",selectedJob)
-    FileData.append("resume", resumeFile)
-    dispatch(applyforJob({data:FileData}))
-    console.log("Selected Job ID:", selectedJob);
-    console.log("Resume File:", resumeFile);
+    FileData.append("userId", profile._id);
+    FileData.append("jobId", selectedJob);
+    FileData.append("recruiterId", selectedJobdetails.recruiterId._id);
+    FileData.append("resume", resumeFile);
+    dispatch(applyforJob({ data: FileData }));
+    // console.log("Selected Job ID:", selectedJob);
+    // console.log("Resume File:", resumeFile);
+    // console.log("recruiter", selectedJobdetails.recruiterId._id);
 
     // Reset state variables
     // setSelectedJob("");
     // setResumeFile(null);
 
-    // Close the modal
     handleApplyClose(selectedJob);
   };
 
@@ -95,16 +113,17 @@ console.log("id", id);
   return (
     <>
       <Navbar />
-      <Search />
+      <SearchJob />
       {loading ? (
         <Loading />
       ) : (
         <>
           <div className="tab-content">
-            {console.log("hell",jobs)}
+            {/* {console.log("hell", jobs)} */}
             <div id="tab-1" className="tab-pane fade show p-0 active">
-              <h1 className="h5 text-center">Job List</h1>
-              {jobs?.map((job, index) => {
+              <h1 className="h5 text-center mt-4">Job List</h1>
+
+              {sortedJobs.map((job, index) => {
                 const isModalOpen = openModal[job._id] || false;
                 const isApplyModal = applyModal[job._id] || false;
                 return (
@@ -117,6 +136,7 @@ console.log("id", id);
                           alt=""
                           style={{ width: "80px", height: "80px" }}
                         />
+                        {console.log(job.recruiterId.profileImg)}
                         <div className="text-start ps-4">
                           <h5 className="mb-3">{job.jobTitle}</h5>
                           <span className="text-truncate me-3">
@@ -194,7 +214,7 @@ console.log("id", id);
                                   sx={{ mt: 2 }}
                                 >
                                   JobTitle: {job?.jobTitle}
-                                  {console.log("job", job)}
+                                  {/* {console.log("job", job)} */}
                                   <br />
                                   Category: {job.category}
                                   <br />
@@ -227,6 +247,7 @@ console.log("id", id);
                           >
                             Apply
                           </Button>
+
                           <Modal
                             open={isApplyModal}
                             onClose={() => handleApplyClose(job._id)}

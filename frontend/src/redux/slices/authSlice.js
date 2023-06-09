@@ -13,6 +13,7 @@ const initialState = {
   profile: null,
   token: null,
   loading: false,
+  role: "",
   error: null,
 };
 
