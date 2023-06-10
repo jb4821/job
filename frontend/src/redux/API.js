@@ -73,18 +73,18 @@ export const DeleteJobAPI = (jobId) =>
       Authorization: getAuthorizationHeader(),
     },
   });
-export const GetJobByRecruiterAPI = () =>
-  AuthAPI.get("job/jobbyrecruiter", {
+export const GetJobByRecruiterAPI = (page) =>
+  AuthAPI.get(`job/jobbyrecruiter?page=${page}`, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },
   });
 
 export const GetAllJobAPI = () =>
-  AuthAPI.get("job/alljob", {
-    headers: {
-      Authorization: getAuthorizationHeader(),
-    },
+  baseAPI.get("job/alljob", {
+    // headers: {
+    //   Authorization: getAuthorizationHeader(),
+    // },
   });
 
 export const GetJobByIdAPI = (id) =>
@@ -95,13 +95,13 @@ export const GetJobByIdAPI = (id) =>
   });
 
 export const GetJobByFilter = ({ title, category, salary }) =>
-  AuthAPI.get(
+  baseAPI.get(
     `job/alljob?title=${title}&category=${category}&salary=${salary}`,
-    {
-      headers: {
-        Authorization: getAuthorizationHeader(),
-      },
-    }
+    // {
+    //   headers: {
+    //     Authorization: getAuthorizationHeader(),
+    //   },
+    // }
   );
 export const ApplyJob = (data) =>
   formAPI.post("jobApply/apply", data, {

@@ -23,7 +23,7 @@ const AddJobs = () => {
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("");
   const [experience, setExperience] = useState("");
-  console.log(jobtitle, category, description, salary, experience);
+  // console.log(jobtitle, category, description, salary, experience);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,11 +39,7 @@ const AddJobs = () => {
     };
     const data = JSON.stringify(jobData);
     dispatch(addJob(data), navigate("/dashboard"));
-    // jobData.append("jobtitle", jobtitle);
-    // jobData.append("category", category);
-    // jobData.append("description", description);
-    // jobData.append("salary", salary);
-    // jobData.append("experience", experience);
+    
   };
 
   return (

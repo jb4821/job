@@ -1,10 +1,23 @@
 const JobApply = require("../models/jobApply.model");
 const Job = require("../models/job.model");
+const {sendApplyJobMail, sendAcceptJobMail, sendRejectJobMail} = require("../utils/Mail")
 
 //apply for job
 const applyForJob = async (req, res) => {
   try {
     const { jobId, recruiterId } = req.body;
+
+     const existingApplication = await JobApply.findOne({
+       userId: req.user.id,
+       jobId,
+     });
+
+     if (existingApplication) {
+       return res
+         .status(400)
+         .json({ message: "You have already applied for this job.",toast:true })
+         ;
+     }
 
     const applyForJob = new JobApply({
       userId: req.user.id,
@@ -15,7 +28,11 @@ const applyForJob = async (req, res) => {
 
     await applyForJob.save();
 
-    return res.status(200).json({ application: applyForJob });
+  
+    const applyMessage = `Your request for <b>JobApplied ID : </b>#${applyForJob._id} is Applied successfully.</br> Resume: ${applyForJob.resume}`;
+    sendApplyJobMail(req.user.email, applyMessage)
+
+    return res.status(200).json({message:"Job Request Applied Successfully.", application: applyForJob });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -60,6 +77,7 @@ const getByUser = async (req, res) => {
   }
 };
 
+//update status
 const updateStatus = async (req,res) => {
   try{
     const {status} = req.body;
@@ -69,9 +87,16 @@ const updateStatus = async (req,res) => {
     }).populate('userId recruiterId');
     if (status === "accepted") {
       await JobApply.updateOne({ _id: req.params.id},{status})
+      const mailmessage = `Your application with <b> JobApplied ID: </b>${currentApplication._id} is Accepted by ${currentApplication.recruiterId.name}.`;
+      sendAcceptJobMail(currentApplication.userId.email, mailmessage)
+
       return res.status(200).json({message: `Request: ${req.params.id} accepted.`});
+      
     } else if (status === "rejected") {
       await JobApply.updateOne({ _id: req.params.id }, { status });
+      const mailmessage = `Your application with <b>JobApplied ID: </b>${currentApplication._id} is Rejected.`;
+      sendRejectJobMail(currentApplication.userId.email, mailmessage)
+
       return res
         .status(200)
         .json({ message: `Request: ${req.params.id} accepted.` });
@@ -91,21 +116,3 @@ module.exports = {
 };
 
 
-//get by recruiter
-// const getByRecruiter = async (req, res) => {
-//   try {
-//     const application = await JobApply.find();
-//     const recruiter = req.recruiter.id;
-//     console.log(recruiter);
-//     console.log(application.jobTitle);
-//     console.log("ss", Job._id);
-//     console.log("ff", JobApply.jobId);
-//     if (Job.id == JobApply.jobId) {
-//       return res.status(200).json({ applications: application });
-//     } else {
-//       return res.status(400).json({ message: "No Job Application found." });
-//     }
-//   } catch (error) {
-//     return res.status(400).json({ error: error.message });
-//   }
-// };

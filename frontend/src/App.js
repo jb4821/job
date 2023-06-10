@@ -25,19 +25,35 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/usersignup" element={<UserSignUp />}></Route>
-        <Route path="/userprofile" element={<UserProfile />}></Route>
-        <Route path="/userapplication" element={<UserApplication />}></Route>
         <Route path="/recruitersignup" element={<RecruiterSignUp />}></Route>
-        <Route path="/recruiterprofile" element={<RecruiterProfile />}></Route>
         <Route path="/login" element={<LogIn />}></Route>
-        <Route path="/addjob" element={<AddJobs />}></Route>
-        <Route path="/updatejob/:id" element={<UpdateJob />}></Route>
-        <Route path="/jobs" element={<JobList />}></Route>
-        <Route path="/dashboard" element={<RecruiterDashboard />}></Route>
-        <Route
-          path="/recruiterapplication"
-          element={<RecruiterApplication />}
-        ></Route>
+
+        {token && role == "user" && (
+          <>
+            <Route path="/userprofile" element={<UserProfile />}></Route>
+            <Route path="/jobs" element={<JobList />}></Route>
+            <Route
+              path="/userapplication"
+              element={<UserApplication />}
+            ></Route>
+          </>
+        )}
+
+        {token && role == "recruiter" && (
+          <>
+            <Route
+              path="/recruiterprofile"
+              element={<RecruiterProfile />}
+            ></Route>
+            <Route path="/addjob" element={<AddJobs />}></Route>
+            <Route path="/updatejob/:id" element={<UpdateJob />}></Route>
+            <Route path="/dashboard" element={<RecruiterDashboard />}></Route>
+            <Route
+              path="/recruiterapplication"
+              element={<RecruiterApplication />}
+            ></Route>
+          </>
+        )}
         <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
 

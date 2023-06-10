@@ -63,9 +63,9 @@ export const deleteJob = createAsyncThunk(
 
 export const getJobbyrecruiter = createAsyncThunk(
   "job/jobbyrecruiter",
-  async (_, { rejectWithValue }) => {
+  async (page, { rejectWithValue }) => {
     try {
-      const response = await GetJobByRecruiterAPI();
+      const response = await GetJobByRecruiterAPI(page);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -104,11 +104,10 @@ export const applyforJob = createAsyncThunk(
   "jobApply/apply",
   async ({ data }, { rejectWithValue }) => {
     try {
-      // const data = {userId, jobId, resume}
       const response = await ApplyJob(data);
-      // console.log("fs", response.data);
       return response.data;
     } catch (error) {
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response);
     }
   }
@@ -122,6 +121,7 @@ export const getUserAppliedJob = createAsyncThunk(
       // console.log("fs", response.data);
       return response.data;
     } catch (error) {
+      
       return rejectWithValue(error.response);
     }
   }
@@ -131,7 +131,6 @@ export const getRecruiterApplication = createAsyncThunk(
   "jobApply/byrecruiter",
   async (_, { rejectWithValue }) => {
     try {
-     
       const response = await GetJobApplicationbyRecruiter();
       // console.log("fs", response.data);
       return response.data;
@@ -146,6 +145,11 @@ export const updateStatus = createAsyncThunk(
   async ({ id, status }, { rejectWithValue }) => {
     try {
       const response = await UpdateStatus(id, status);
+      console.log(response);
+      if (response.data.toast) {
+        // Display the toast message using your preferred toast library or custom implementation
+        console.log(response.data.message);
+      }
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -325,12 +329,13 @@ export const jobSlice = createSlice({
       state.loading = true;
       state.message = null;
       state.error = null;
+      state.is_update = false;
     },
     [updateStatus.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.message = payload.message;
       state.error = null;
-      // state.is_update = true;
+      state.is_update = true;
       toast.success("status update successfully");
     },
     [updateStatus.rejected]: (state, { payload }) => {

@@ -29,17 +29,6 @@ export const filterData = createAsyncThunk(
 export const searchSlice = createSlice({
   name: "search",
   initialState,
-  reducers: {
-    // setTitle: (state, action) => {
-    //   state.title = action.payload;
-    // },
-    // setCategory: (state, action) => {
-    //   state.category = action.payload;
-    // },
-    // setSalary: (state, action) => {
-    //   state.salary = action.payload;
-    // },
-  },
   extraReducers: {
     [filterData.pending]: (state) => {
       state.loading = true;

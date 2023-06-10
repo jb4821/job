@@ -10,6 +10,7 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
+import { teal } from "@mui/material/colors";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
@@ -34,11 +35,11 @@ const RecruiterSignUp = () => {
   const dispatch = useDispatch();
   const { token, loading } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/");
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate("/");
+  //   }
+  // }, [token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +64,7 @@ const RecruiterSignUp = () => {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -88,11 +89,7 @@ const RecruiterSignUp = () => {
                     onChange={(e) => setName(e.target.value)}
                     autoComplete="given-name"
                   />
-                  {/* <ErrorMessage
-                          name="name"
-                          component="span"
-                          style={{ color: "red", textAlign: "end" }}
-                        /> */}
+                  
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -154,18 +151,7 @@ const RecruiterSignUp = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="gender"
-                    label="gender"
-                    type="text"
-                    id="gender"
-                    value={gender}
-                    onChange={(e) => setPassword(e.target.value)}
-                  /> */}
-                {/* </Grid> */}
+
                 <Grid item xs={12}>
                   <Grid item xs={12}>
                     <input
@@ -183,7 +169,7 @@ const RecruiterSignUp = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: teal[500] }}
               >
                 Sign Up
               </Button>
@@ -198,18 +184,6 @@ const RecruiterSignUp = () => {
           </Box>
         </Container>
       </ThemeProvider>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 };

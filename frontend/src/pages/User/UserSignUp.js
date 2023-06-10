@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "../../redux/slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,38 +19,80 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "../../components/Navbar";
+import { FormHelperText } from "@mui/material";
 
 const defaultTheme = createTheme();
 
 const UserSignUp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token, loading } = useSelector((state) => state.auth);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
   const [profileimg, setProfileimg] = useState(null);
-  console.log(name, email, mobile, gender, password, profileimg);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { token, loading } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/");
-    }
-  }, [token]);
+  const [errors, setErrors] = useState({
+    nameError: "",
+    emailError: "",
+    mobileError: "",
+    genderError: "",
+    passwordError: "",
+    profileimgError: "",
+  });
+
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate("/");
+  //   }
+  // }, [token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = new FormData();
-    userData.append("name", name);
-    userData.append("email", email);
-    userData.append("mobile", mobile);
-    userData.append("gender", gender);
-    userData.append("password", password);
-    userData.append("profileImg", profileimg);
 
-    dispatch(signUpUser({ user: userData, navigate }));
+    let valid = true;
+    const newError = {
+      nameError: "",
+      emailError: "",
+      mobileError: "",
+      genderError: "",
+      passwordError: "",
+      profileimgError: null,
+    };
+
+    if (name.trim() === "") {
+      newError.nameError = "Name is required";
+      // console.log("name is required");
+      console.log(newError.nameError);
+      valid = false;
+    }
+
+    setErrors(newError);
+
+    if(valid){
+
+      const userData = new FormData();
+      userData.append("name", name);
+      userData.append("email", email);
+      userData.append("mobile", mobile);
+      userData.append("gender", gender);
+      userData.append("password", password);
+      userData.append("profileImg", profileimg);
+  
+      dispatch(signUpUser({ user: userData, navigate }));
+  
+      setErrors({
+        nameError: "",
+        emailError: "",
+        mobileError: "",
+        genderError: "",
+        passwordError: "",
+        profileimgError: null,
+      });
+    }
   };
 
   return (
@@ -61,7 +103,7 @@ const UserSignUp = () => {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 6,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -85,12 +127,14 @@ const UserSignUp = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     autoComplete="given-name"
+                    error={errors.nameError !== ""}
                   />
-                  {/* <ErrorMessage
-                          name="name"
-                          component="span"
-                          style={{ color: "red", textAlign: "end" }}
-                        /> */}
+                  {errors.nameError && (
+                    <FormHelperText error>{errors.nameError}</FormHelperText>
+                  )}
+                  {/* {errors.nameError && (
+                    <p style={{ color: "red" }}>{errors.nameError}</p>
+                  )} */}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -166,6 +210,7 @@ const UserSignUp = () => {
                       id="img"
                       name="img"
                       accept="image/*"
+                      label="Profile Image"
                       required
                       onChange={(e) => setProfileimg(e.target.files[0])}
                     />
@@ -192,17 +237,6 @@ const UserSignUp = () => {
         </Container>
       </ThemeProvider>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 };

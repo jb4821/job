@@ -101,7 +101,6 @@
 
 // export default Search;
 
-
 import React, { useEffect, useState } from "react";
 import { Grid, Box, TextField, Button, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -204,8 +203,3 @@ const Search = () => {
 };
 
 export default Search;
-
-
-
-
-

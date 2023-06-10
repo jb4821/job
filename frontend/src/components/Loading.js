@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, CircularProgress } from '@mui/material'
+import React from "react";
+import { Box, CircularProgress } from "@mui/material";
 
 const Loading = () => {
   return (
@@ -16,6 +16,6 @@ const Loading = () => {
       </Box>
     </>
   );
-}
+};
 
-export default Loading
+export default Loading;

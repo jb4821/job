@@ -40,6 +40,7 @@ export const signInUser = createAsyncThunk(
       navigate("/jobs");
       return response.data;
     } catch (error) {
+      toast.error(error.response.data.message)
       return rejectWithValue(error.response);
     }
   }
@@ -84,6 +85,7 @@ export const signInRecruiter = createAsyncThunk(
       navigate("/dashboard");
       return response.data;
     } catch (error) {
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response);
     }
   }
@@ -122,6 +124,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.role = "user";
       localStorage.setItem("token", payload.token);
+      toast.success("User Signup successfully");
     },
     [signUpUser.rejected]: (state, { payload }) => {
       state.profile = null;
@@ -144,6 +147,8 @@ export const authSlice = createSlice({
       state.error = null;
       state.role = "user";
       localStorage.setItem("token", payload.token);
+      toast.success("User Login successfully");
+      
     },
     [signInUser.rejected]: (state, { payload }) => {
       state.profile = null;
@@ -176,6 +181,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.role = "recruiter";
       localStorage.setItem("token", payload.token);
+      toast.success("Recruiter Signup successfully")
     },
     [signUpRecruiter.rejected]: (state, { payload }) => {
       state.profile = null;
@@ -198,6 +204,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.role = "recruiter";
       localStorage.setItem("token", payload.token);
+      toast.success("Recruiter Login successfully")
     },
     [signInRecruiter.rejected]: (state, { payload }) => {
       state.profile = null;

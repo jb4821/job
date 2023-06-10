@@ -11,30 +11,22 @@ import { Link } from "react-router-dom";
 
 const RecruiterApplication = () => {
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.auth.profile._id);
+  const {profile} = useSelector((state) => state.auth);
+  const { appliedjobs, loading, is_update } = useSelector((state) => state.jobs);
+  
+  // const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const handleAcceptClick = (application) => {
+  const handleStatusClick = (application,status) => {
     dispatch(
-      updateStatus({ id: application._id, status: { status: "accepted" } })
+      updateStatus({ id: application._id, status: { status: status } })
     );
-     setIsButtonDisabled(true);
   };
 
-  const handleRejectClick = (application) => {
-    dispatch(
-      updateStatus({ id: application._id, status: { status: "rejected" } })
-    );
-     setIsButtonDisabled(true);
-  };
 
   useEffect(() => {
     dispatch(getRecruiterApplication());
-    dispatch(updateStatus())
-  }, [dispatch]);
+  }, [dispatch,is_update]);
 
-  const { appliedjobs, loading } = useSelector((state) => state.jobs);
   return (
     <>
       <Navbar />
@@ -89,15 +81,19 @@ const RecruiterApplication = () => {
                     <td>
                       <button
                         className="btn btn-success btn-sm mr-2"
-                        onClick={() => handleAcceptClick(application)}
-                        disabled={isButtonDisabled}
+                        onClick={() =>
+                          handleStatusClick(application, "accepted")
+                        }
+                        disabled={application.status !== "pending"}
                       >
                         Accept
                       </button>
                       <button
                         className="btn btn-success btn-sm"
-                        onClick={() => handleRejectClick(application)}
-                        disabled={isButtonDisabled}
+                        onClick={() =>
+                          handleStatusClick(application, "rejected")
+                        }
+                        disabled={application.status !== "pending"}
                       >
                         Reject
                       </button>

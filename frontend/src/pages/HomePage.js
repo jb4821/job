@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getJobbyrecruiter } from "../redux/slices/jobSlice";
 import JobList from "./Job/JobList";
 import Loading from "../components/Loading";
+import JobListContent from "./Job/JobListContent";
 // import SearchComponent from "./SearchComponent";
 
 const HomePage = () => {
@@ -75,10 +76,7 @@ const HomePage = () => {
           {/*.......Banner image end........*/}
         </div>
       </section>
-      <JobList /> 
-
-      {/* {loading? <Loading />: (<JobList />)
-} */}
+      <JobListContent /> 
       <Footer />
     </div>
   );

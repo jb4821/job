@@ -12,15 +12,12 @@ const registerRecruiter = async (req, res) => {
       company,
       location,
       password,
-      confirmPassword,
     } = req.body;
 
     const recruiterExists = await Recruiter.findOne({ email });
     if (recruiterExists) {
       return res.status(400).json({ message: "Recruiter already exists!!!" });
     }
-
-    // if (password === confirmPassword) {
     const hashPassword = await bcrypt.hash(password, 10);
 
     const recruiter = new Recruiter({
@@ -39,11 +36,7 @@ const registerRecruiter = async (req, res) => {
       recruiter: recruiter.toJSON(),
       token,
     });
-    // } else {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "Password and confirmPassword are not same." });
-    // }
+   
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

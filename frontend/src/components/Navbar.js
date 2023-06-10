@@ -26,7 +26,6 @@ const Navbar = () => {
     ? localStorage.getItem("token")
     : null;
 
-
   return (
     <div className="navbar">
       <div className="container">
