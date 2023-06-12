@@ -32,7 +32,15 @@ const formAPI = axios.create({
 
 //Users
 export const UserRegisterAPI = (data) => formAPI.post("/user/register", data);
+
 export const UserLoginAPI = (data) => baseAPI.post("/user/login", data);
+
+export const UserForgotPassword = (data) =>
+  baseAPI.post("/user/forgotpassword", data);
+
+export const UserResetPassword = (resetoken, data) =>
+  baseAPI.post(`/user/resetpassword/${resetoken}`, data);
+
 export const UserLogoutAPI = () =>
   AuthAPI.get("/user/logout", {
     headers: {
@@ -96,7 +104,7 @@ export const GetJobByIdAPI = (id) =>
 
 export const GetJobByFilter = ({ title, category, salary }) =>
   baseAPI.get(
-    `job/alljob?title=${title}&category=${category}&salary=${salary}`,
+    `job/alljob?title=${title}&category=${category}&salary=${salary}`
     // {
     //   headers: {
     //     Authorization: getAuthorizationHeader(),
@@ -116,7 +124,6 @@ export const GetAppliedJobbyUser = () =>
       Authorization: getAuthorizationHeader(),
     },
   });
-
 
 export const GetJobApplicationbyRecruiter = () =>
   AuthAPI.get("jobApply/byrecruiter", {

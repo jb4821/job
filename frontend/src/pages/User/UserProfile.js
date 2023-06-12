@@ -1,60 +1,3 @@
-// import React from "react";
-// import {
-//   Container,
-//   Grid,
-//   Card,
-//   CardContent,
-//   CardMedia,
-//   Typography,
-//   Box,
-// } from "@mui/material";
-// import {
-//   Email,
-//   Phone,
-//   Facebook,
-//   Twitter,
-//   Instagram,
-// } from "@mui/icons-material";
-// import Navbar from "../../components/Navbar";
-// import { Link } from "react-router-dom";
-// import { useSelector } from "react-redux";
-
-
-// const UserProfile = () => {
-
-//   const {profile} = useSelector((state) => state.auth);
-
-//   return (
-//     <>
-//       <Navbar />
-//       <div className="container mt-5">
-//         <div className="row justify-content-center">
-//           <div className="col-md-4 d-flex justify-content-center">
-//             <div className="card">
-//               <div className="card-body">
-//                 <img
-//                   src={profile.profileImg}
-//                   className="card-img-top circle-img circle-img--small mx-auto"
-//                   alt="Profile Image"
-//                 />
-//                 <h5 className="card-title text-center justify-center">
-//                   {profile.name}
-//                 </h5>
-//                 <p className="card-text">Email: {profile.email}</p>
-//                 <p className="card-text">Mobile: {profile.mobile}</p>
-//                 <p className="card-text">Gender: {profile.gender}</p>
-//                 <button className="btn btn-primary">Change Password</button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default UserProfile;
-
 import React from "react";
 import {
   Container,
@@ -121,18 +64,33 @@ const UserProfile = () => {
                 }}
               />
             </Box>
-            <Typography variant="body1" gutterBottom>
+            <Typography
+              variant="body1"
+              gutterBottom
+              align="center"
+              sx={{ p: 1 }}
+            >
               <Email sx={{ mr: 1 }} />
               {profile.email}
             </Typography>
-            <Typography variant="body1" gutterBottom>
+            <Typography
+              variant="body1"
+              gutterBottom
+              textAlign="center"
+              sx={{ p: 1 }}
+            >
               <Phone sx={{ mr: 1 }} />
               {profile.mobile}
             </Typography>
-            <Typography variant="body1" gutterBottom>
+            <Typography
+              variant="body1"
+              gutterBottom
+              align="center"
+              sx={{ p: 1 }}
+            >
               Gender: {profile.gender}
             </Typography>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
               <button className="btn btn-primary">Change Password</button>
             </Box>
           </CardContent>
@@ -143,3 +101,4 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+

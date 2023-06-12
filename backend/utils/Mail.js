@@ -1,6 +1,30 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+const sendMail = async(email,message) => {
+  let mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.Mail_USER,
+      pass: process.env.Mail_PASSWORD,
+    }
+  })
+
+  let mailDetails = {
+    from: `TalentSpot <${process.env.Mail_USER}>`,
+    to: email,
+    subject: "TalentSpot - Reset Password",
+    text: `${message} This link is valid for only 10 minutes and Please don't share this mail with anyone.`,
+  };
+
+  mailTransporter.sendMail(mailDetails, function (err,data) {
+    if(err) {
+      console.log("Error Occures");
+    }else {
+      console.log("Email sent successfully.");
+    }
+  })
+}
 const sendApplyJobMail = async (email, message) => {
     let mailTransporter = nodemailer.createTransport({
       service: "gmail",
@@ -77,6 +101,7 @@ const sendRejectJobMail = async (email, message) => {
 };
 
 module.exports = {
+  sendMail,
     sendApplyJobMail,
     sendAcceptJobMail,
     sendRejectJobMail

@@ -144,7 +144,8 @@ const JobListContent = () => {
                             {job.recruiterId.location}
                           </span>
                           <span className="text-truncate me-3">
-                            <i className="far fa-clock text-primary me-2"></i>
+                            <i className="fas fa-code text-primary me-2"></i>
+
                             {job.category}
                           </span>
                           <span className="text-truncate me-3">
@@ -152,11 +153,14 @@ const JobListContent = () => {
                             {job.salary}
                           </span>
                           <span className="text-truncate me-3">
-                            <i className="far fa-money-bill-alt text-primary me-2"></i>
+                            <i
+                              className="fa fa-building text-primary me-2"
+                              aria-hidden="true"
+                            ></i>
                             {job.recruiterId.company}
                           </span>
                           <span className="text-truncate me-0">
-                            <i className="far fa-money-bill-alt text-primary me-2"></i>
+                            <i className="fas fa-briefcase text-primary me-2"></i>
                             {job.experience}
                           </span>
                         </div>

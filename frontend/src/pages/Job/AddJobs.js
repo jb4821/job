@@ -23,6 +23,14 @@ const AddJobs = () => {
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("");
   const [experience, setExperience] = useState("");
+
+  const [errors, setErrors] = useState({
+    jobtitleError: "",
+    categoryError: "",
+    descriptionError: "",
+    salaryError: "",
+    experienceError: "",
+  });
   // console.log(jobtitle, category, description, salary, experience);
 
   const dispatch = useDispatch();
@@ -30,16 +38,63 @@ const AddJobs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const jobData = {
-      jobTitle: jobtitle,
-      category,
-      description,
-      salary,
-      experience,
+
+    let valid = true;
+    const newError = {
+      jobtitleError: "",
+      categoryError: "",
+      descriptionError: "",
+      salaryError: "",
+      experienceError: "",
     };
-    const data = JSON.stringify(jobData);
-    dispatch(addJob(data), navigate("/dashboard"));
-    
+
+    if (jobtitle.trim() === "") {
+      newError.jobtitleError = "Jobtitle is required";
+      console.log(newError.jobtitleError);
+      valid = false;
+    }
+
+    if (category.trim() === "") {
+      newError.categoryError = "Jobtitle is required";
+      valid = false;
+    }
+
+    if (description.trim() === "") {
+      newError.descriptionError = "Jobtitle is required";
+      valid = false;
+    }
+
+    if (salary.trim() === "") {
+      newError.salaryError = "Jobtitle is required";
+      valid = false;
+    }
+
+    if (experience.trim() === "") {
+      newError.experienceError = "Jobtitle is required";
+      valid = false;
+    }
+
+    setErrors(newError);
+
+    if (valid) {
+      const jobData = {
+        jobTitle: jobtitle,
+        category,
+        description,
+        salary,
+        experience,
+      };
+      const data = JSON.stringify(jobData);
+      dispatch(addJob(data), navigate("/dashboard"));
+
+      setErrors({
+        jobtitleError: "",
+        categoryError: "",
+        descriptionError: "",
+        salaryError: "",
+        experienceError: "",
+      });
+    }
   };
 
   return (
@@ -71,6 +126,8 @@ const AddJobs = () => {
                     value={jobtitle}
                     onChange={(e) => setJobtitle(e.target.value)}
                     autoComplete="given-name"
+                    error={errors.jobtitleError !== ""}
+                    helperText={errors.jobtitleError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -82,7 +139,9 @@ const AddJobs = () => {
                     name="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    autoComplete="email"
+                    autoComplete="category"
+                    error={errors.categoryError !== ""}
+                    helperText={errors.categoryError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -94,7 +153,9 @@ const AddJobs = () => {
                     name="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    autoComplete="mobile"
+                    autoComplete="description"
+                    error={errors.descriptionError !== ""}
+                    helperText={errors.descriptionError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -106,7 +167,9 @@ const AddJobs = () => {
                     name="salary"
                     value={salary}
                     onChange={(e) => setSalary(e.target.value)}
-                    autoComplete="company"
+                    autoComplete="salary"
+                    error={errors.salaryError !== ""}
+                    helperText={errors.salaryError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -118,7 +181,9 @@ const AddJobs = () => {
                     name="experience"
                     value={experience}
                     onChange={(e) => setExperience(e.target.value)}
-                    autoComplete="location"
+                    autoComplete="experience"
+                    error={errors.experienceError !== ""}
+                    helperText={errors.experienceError}
                   />
                 </Grid>
               </Grid>
@@ -126,7 +191,14 @@ const AddJobs = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#4CAF50", // Green color
+                  "&:hover": {
+                    backgroundColor: "#45a049", // Darker green color on hover
+                  },
+                }}
               >
                 Add Job
               </Button>

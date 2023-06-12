@@ -7,6 +7,8 @@ import {
   RecruiterRegisterAPI,
   RecruiterLoginAPI,
   RecruiterLogoutAPI,
+  UserForgotPassword,
+  UserResetPassword,
 } from "../API";
 
 const initialState = {
@@ -41,6 +43,33 @@ export const signInUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       toast.error(error.response.data.message)
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const userforgotPassword = createAsyncThunk(
+  "user/forgotpassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await UserForgotPassword(data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const userresetPassword = createAsyncThunk(
+  "user/resetpassword",
+  async ({ navigate, resettoken, data }, { rejectWithValue }) => {
+    try {
+      const response = await UserResetPassword(resettoken, data);
+      navigate("/login");
+      return response.data;
+    } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response);
     }
   }
@@ -148,7 +177,6 @@ export const authSlice = createSlice({
       state.role = "user";
       localStorage.setItem("token", payload.token);
       toast.success("User Login successfully");
-      
     },
     [signInUser.rejected]: (state, { payload }) => {
       state.profile = null;
@@ -156,6 +184,35 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = payload.data.error;
       toast.error(state.error);
+    },
+    [userforgotPassword.pending]: (state) => {
+      state.message = null;
+      state.loading = true;
+    },
+    [userforgotPassword.fulfilled]: (state, { payload }) => {
+      state.message = payload.message;
+      state.loading = false;
+      toast.success(state.message);
+    },
+    [userforgotPassword.rejected]: (state, { payload }) => {
+      state.message = payload.data.message;
+      state.loading = false;
+      toast.error(state.message);
+    },
+    [userresetPassword.pending]: (state) => {
+      state.message = null;
+      state.loading = true;
+    },
+    [userresetPassword.fulfilled]: (state, { payload }) => {
+      state.message = payload.message;
+      state.loading = false;
+      toast.success(state.message);
+    },
+    [userresetPassword.rejected]: (state, { payload }) => {
+      state.message = payload.data.message;
+      state.loading = false;
+      state.error = payload;
+      toast.error(state.message);
     },
     [logoutUser.fulfilled]: (state) => {
       state.profile = null;
@@ -181,7 +238,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.role = "recruiter";
       localStorage.setItem("token", payload.token);
-      toast.success("Recruiter Signup successfully")
+      toast.success("Recruiter Signup successfully");
     },
     [signUpRecruiter.rejected]: (state, { payload }) => {
       state.profile = null;
@@ -204,7 +261,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.role = "recruiter";
       localStorage.setItem("token", payload.token);
-      toast.success("Recruiter Login successfully")
+      toast.success("Recruiter Login successfully");
     },
     [signInRecruiter.rejected]: (state, { payload }) => {
       state.profile = null;

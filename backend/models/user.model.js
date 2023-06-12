@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto")
 require("dotenv");
 
 const userSchema = new mongoose.Schema(
@@ -33,26 +34,19 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    // location: {
-    //   type: String,
-    //   trim: true,
-    //   required: true,
-    // },
-
     password: {
       type: String,
       trim: true,
       required: true,
     },
 
-    // confirmPassword: {
-    //   type: String,
-    // },
-
     profileImg: {
       type: String,
       required: true,
     },
+    passwordChangedAt: String,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
   },
   {
     timestamps: true,
@@ -79,6 +73,18 @@ userSchema.methods.toJSON = function () {
   delete userObject.updatedAt;
   delete userObject.__v;
   return userObject;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  return resetToken;
 };
 
 module.exports = mongoose.model("User", userSchema);

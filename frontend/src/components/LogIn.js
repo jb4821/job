@@ -138,6 +138,7 @@ import {
   Button,
   Container,
   CssBaseline,
+  FormHelperText,
   Grid,
   TextField,
   ThemeProvider,
@@ -149,9 +150,8 @@ import {
 
 import LoginIcon from "@mui/icons-material/Login";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInUser, signInRecruiter } from "../redux/slices/authSlice";
-
 
 const defaultTheme = createTheme();
 
@@ -159,43 +159,68 @@ const LogIn = () => {
   const [role, setRole] = useState("user");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    emailError: "",
+    passwordError: "",
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { token, loading, role: yrole } = useSelector((state) => state.auth);
 
-  const validateForm = () => {
-    let isValid = true;
-    const newErrors = {};
+  // const validateForm = () => {
+  //   let isValid = true;
+  //   const newErrors = {};
 
-    if (email.trim() === "") {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else {
-      newErrors.email = ""; // Clear the error message for email field
-    }
+  //   if (email.trim() === "") {
+  //     newErrors.email = "Email is required";
+  //     isValid = false;
+  //   } else {
+  //     newErrors.email = ""; // Clear the error message for email field
+  //   }
 
-    if (password.trim() === "") {
-      newErrors.password = "Password is required";
-      isValid = false;
-    } else {
-      newErrors.password = ""; // Clear the error message for password field
-    }
+  //   if (password.trim() === "") {
+  //     newErrors.password = "Password is required";
+  //     isValid = false;
+  //   } else {
+  //     newErrors.password = ""; // Clear the error message for password field
+  //   }
 
-    setErrors(newErrors);
-    return isValid;
-  };
+  //   setErrors(newErrors);
+  //   return isValid;
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    let isValid = true;
+    const newErrors = {
+      emailError: "",
+      passwordError: "",
+    };
+
+    if (email.trim() === "") {
+      newErrors.emailError = "Email is required";
+      isValid = false;
+    }
+
+    if (password.trim() === "") {
+      newErrors.passwordError = "Password is required";
+      isValid = false;
+    }
+    setErrors(newErrors);
+
+    if (isValid) {
       if (role === "user") {
         dispatch(signInUser({ user: { email, password }, navigate }));
       } else if (role === "recruiter") {
         dispatch(signInRecruiter({ recruiter: { email, password }, navigate }));
       }
+
+      setErrors({
+        emailError: "",
+        passwordError: "",
+      });
     }
   };
 
@@ -247,9 +272,12 @@ const LogIn = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
-                    error={errors.email !== undefined}
-                    helperText={errors.email}
+                    error={errors.emailError !== ""}
+                    helperText={errors.emailError}
                   />
+                  {/* {errors.emailError && (
+                    <FormHelperText error>{errors.emailError}</FormHelperText>
+                  )} */}
                 </Grid>
 
                 <Grid item xs={12}>
@@ -263,8 +291,8 @@ const LogIn = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="new-password"
-                    error={errors.password !== undefined}
-                    helperText={errors.password}
+                    error={errors.passwordError !== ""}
+                    helperText={errors.passwordError}
                   />
                 </Grid>
               </Grid>
@@ -272,10 +300,24 @@ const LogIn = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#4CAF50",
+                  "&:hover": {
+                    backgroundColor: "#45a049",
+                  },
+                }}
               >
                 Log In
               </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link to={"/forgotpassword"} variant="body2">
+                    Forgot Password?
+                  </Link>
+                </Grid>
+              </Grid>
             </form>
           </Box>
         </Container>

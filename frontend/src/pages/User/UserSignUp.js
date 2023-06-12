@@ -54,6 +54,7 @@ const UserSignUp = () => {
     e.preventDefault();
 
     let valid = true;
+    const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const newError = {
       nameError: "",
       emailError: "",
@@ -68,6 +69,26 @@ const UserSignUp = () => {
       // console.log("name is required");
       console.log(newError.nameError);
       valid = false;
+    }
+
+    if (!email.match(isValidEmail)) {
+      newError.emailError = "Please enter valid email.";
+      valid = false;
+    }
+
+    if (mobile.length !== 10) {
+      newError.mobileError = "Please enter valid mobile number."
+      valid = false;
+    }
+
+    if (password.length < 8) {
+      newError.passwordError = "Password length must be greaterthen 8."
+      valid = false
+    }
+
+    if (profileimg === null) {
+      newError.profileimgError = "Please select profile pic."
+      valid = false
     }
 
     setErrors(newError);
@@ -128,12 +149,10 @@ const UserSignUp = () => {
                     onChange={(e) => setName(e.target.value)}
                     autoComplete="given-name"
                     error={errors.nameError !== ""}
+                    helperText={errors.nameError}
                   />
-                  {errors.nameError && (
-                    <FormHelperText error>{errors.nameError}</FormHelperText>
-                  )}
                   {/* {errors.nameError && (
-                    <p style={{ color: "red" }}>{errors.nameError}</p>
+                    <FormHelperText error>{errors.nameError}</FormHelperText>
                   )} */}
                 </Grid>
                 <Grid item xs={12}>
@@ -146,6 +165,8 @@ const UserSignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
+                    error={errors.emailError !== ""}
+                    helperText={errors.emailError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -158,6 +179,8 @@ const UserSignUp = () => {
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                     autoComplete="mobile"
+                    error={errors.mobileError !== ""}
+                    helperText={errors.mobileError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -201,6 +224,8 @@ const UserSignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="new-password"
+                    error={errors.passwordError !== ""}
+                    helperText={errors.passwordError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -213,6 +238,8 @@ const UserSignUp = () => {
                       label="Profile Image"
                       required
                       onChange={(e) => setProfileimg(e.target.files[0])}
+                      error={errors.profileimgError !== ""}
+                      helperText={errors.profileimgError}
                     />
                   </Grid>
                 </Grid>
@@ -221,7 +248,14 @@ const UserSignUp = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#4CAF50", 
+                  "&:hover": {
+                    backgroundColor: "#45a049",
+                  },
+                }}
               >
                 Sign Up
               </Button>
@@ -236,7 +270,6 @@ const UserSignUp = () => {
           </Box>
         </Container>
       </ThemeProvider>
-
     </>
   );
 };

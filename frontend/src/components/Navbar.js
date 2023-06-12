@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/authSlice";
+import { Avatar } from "@mui/material";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -50,14 +51,16 @@ const Navbar = () => {
                 <Link to={"/contect"}>Contact</Link>
               </span>
 
-              <a>
-                <img
+              <a onClick={handleShowMenu}>
+                <Avatar src={profile?.profileImg} />
+                {/* <img
                   onClick={handleShowMenu}
                   src={profile?.profileImg}
                   width={50}
                   height={50}
+                  style={{ borderRadius: "50%"}}
                   alt=""
-                />
+                /> */}
               </a>
               {menu && (
                 <div className="manageandlogin">

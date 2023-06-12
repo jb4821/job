@@ -10,7 +10,7 @@ const UserApplication = () => {
   const id = useSelector((state) => state.auth.profile._id);
   console.log("userid", id);
   const { appliedjobs, loading } = useSelector((state) => state.jobs);
-  // console.log("llll",appliedjobs)
+  console.log("llll",appliedjobs)
 
   // const [list, setList] = useState([]);
 
@@ -38,7 +38,23 @@ const UserApplication = () => {
                   <th>Status</th>
                 </tr>
               </thead>
-              {appliedjobs?.map((job, index) => {
+              {appliedjobs === null ? (
+                
+                  <h2
+                    style={{
+                      // display: "flex",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}
+                  >
+                    <b>You have not applied to any jobs.</b>
+                  </h2>
+                
+              ) : (
+                <>
+                 {appliedjobs?.map((job, index) => {
                 return (
                   <tbody key={index}>
                     <tr>
@@ -51,14 +67,12 @@ const UserApplication = () => {
                           />
                           <div className="user-info__basic">
                             <h5 className="mb-0">{}</h5>
-                          
                           </div>
                         </div>
                       </td>
                       <td>
                         <div className="d-flex align-items-baseline">
                           <h4 className="mr-1">{job.jobId.jobTitle}</h4>
-                        
                         </div>
                       </td>
                       <td>{job.recruiterId.company}</td>
@@ -71,6 +85,9 @@ const UserApplication = () => {
                   </tbody>
                 );
               })}
+                </>
+              )}
+             
             </table>
           </>
         </div>

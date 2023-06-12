@@ -17,6 +17,8 @@ import UserProfile from "./pages/User/UserProfile";
 import RecruiterApplication from "./pages/Recruiter/RecruiterApplication";
 import UserApplication from "./pages/User/UserApplication";
 import RecruiterProfile from "./pages/Recruiter/RecruiterProfile";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
   const { token, role } = useSelector((state) => state.auth);
@@ -27,6 +29,8 @@ function App() {
         <Route path="/usersignup" element={<UserSignUp />}></Route>
         <Route path="/recruitersignup" element={<RecruiterSignUp />}></Route>
         <Route path="/login" element={<LogIn />}></Route>
+        <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />}></Route>
 
         {token && role == "user" && (
           <>

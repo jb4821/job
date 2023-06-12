@@ -29,6 +29,16 @@ const RecruiterSignUp = () => {
   const [location, setLocation] = useState("");
   const [password, setPassword] = useState("");
   const [profilepic, setProfilepic] = useState(null);
+
+  const [errors ,setErrors] = useState({
+    nameError: "",
+    emailError: "",
+    mobileError: "",
+    companyError: "",
+    locationError: "",
+    passwordError: "",
+    profilepicError: null,
+  })
   // console.log(profilepic);
 
   const navigate = useNavigate();
@@ -43,18 +53,76 @@ const RecruiterSignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const recruiterData = new FormData();
-    recruiterData.append("name", name);
-    recruiterData.append("email", email);
-    recruiterData.append("mobile", mobile);
-    recruiterData.append("company", company);
-    recruiterData.append("location", location);
-    recruiterData.append("password", password);
-    recruiterData.append("profileImg", profilepic);
-    console.log(profilepic);
 
-    dispatch(signUpRecruiter({ recruiter: recruiterData, navigate }));
-  };
+    let valid = true;
+    const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const newError = {
+      nameError: "",
+      emailError: "",
+      mobileError: "",
+      companyError: "",
+      locationError: "",
+      passwordError: "",
+      profilepicError: null,
+    };
+
+    if (name.trim() === "") {
+      newError.nameError = "Name is required";
+      valid = false;
+    }
+
+    if (!email.match(isValidEmail)) {
+      newError.emailError = "Please enter valid email.";
+      valid = false;
+    }
+
+    if (mobile.length !== 10) {
+      newError.mobileError = "Please enter valid mobile number.";
+      valid = false;
+    }
+
+    if (company.trim() === "") {
+      newError.companyError = "Company name is required";
+      valid = false
+    }
+
+    if (location.trim() === "") {
+      newError.locationError = "Location is required";
+      valid = false
+    }
+
+    if (password.length < 8) {
+      newError.passwordError = "Password length must be greaterthen 8.";
+      valid = false;
+    }
+
+    setErrors(newError);
+
+    if (valid) {
+
+      const recruiterData = new FormData();
+      recruiterData.append("name", name);
+      recruiterData.append("email", email);
+      recruiterData.append("mobile", mobile);
+      recruiterData.append("company", company);
+      recruiterData.append("location", location);
+      recruiterData.append("password", password);
+      recruiterData.append("profileImg", profilepic);
+      console.log(profilepic);
+  
+      dispatch(signUpRecruiter({ recruiter: recruiterData, navigate }));
+
+      setErrors({
+        nameError: "",
+        emailError: "",
+        mobileError: "",
+        companyError: "",
+        locationError: "",
+        passwordError: "",
+        profilepicError: null,
+      });
+    };
+    }
 
   return (
     <>
@@ -88,8 +156,9 @@ const RecruiterSignUp = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     autoComplete="given-name"
+                    error={errors.nameError !== ""}
+                    helperText={errors.nameError}
                   />
-                  
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -101,6 +170,8 @@ const RecruiterSignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
+                    error={errors.emailError !== ""}
+                    helperText={errors.emailError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -113,6 +184,8 @@ const RecruiterSignUp = () => {
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                     autoComplete="mobile"
+                    error={errors.mobileError !== ""}
+                    helperText={errors.mobileError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -125,6 +198,8 @@ const RecruiterSignUp = () => {
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     autoComplete="company"
+                    error={errors.companyError !== ""}
+                    helperText={errors.companyError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -137,6 +212,8 @@ const RecruiterSignUp = () => {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     autoComplete="location"
+                    error={errors.locationError !== ""}
+                    helperText={errors.locationError}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -149,6 +226,8 @@ const RecruiterSignUp = () => {
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    error={errors.passwordError !== ""}
+                    helperText={errors.passwordError}
                   />
                 </Grid>
 
@@ -169,7 +248,14 @@ const RecruiterSignUp = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: teal[500] }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#4CAF50", // Green color
+                  "&:hover": {
+                    backgroundColor: "#45a049", // Darker green color on hover
+                  },
+                }}
               >
                 Sign Up
               </Button>
