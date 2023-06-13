@@ -73,19 +73,19 @@ export const getJobbyrecruiter = createAsyncThunk(
   }
 );
 
-export const getAllJob = createAsyncThunk(
-  "job/alljob",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await GetAllJobAPI();
+// export const getAllJob = createAsyncThunk(
+//   "job/alljob",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await GetAllJobAPI();
 
-      // console.log("ds", response.data);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response);
-    }
-  }
-);
+//       // console.log("ds", response.data);
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response);
+//     }
+//   }
+// );
 
 export const getJobbyid = createAsyncThunk(
   "job/jobbyid",
@@ -115,9 +115,9 @@ export const applyforJob = createAsyncThunk(
 
 export const getUserAppliedJob = createAsyncThunk(
   "jobApply/byuser",
-  async (_, { rejectWithValue }) => {
+  async (page, { rejectWithValue }) => {
     try {
-      const response = await GetAppliedJobbyUser();
+      const response = await GetAppliedJobbyUser(page);
       // console.log("fs", response.data);
       return response.data;
     } catch (error) {
@@ -129,9 +129,9 @@ export const getUserAppliedJob = createAsyncThunk(
 
 export const getRecruiterApplication = createAsyncThunk(
   "jobApply/byrecruiter",
-  async (_, { rejectWithValue }) => {
+  async (page, { rejectWithValue }) => {
     try {
-      const response = await GetJobApplicationbyRecruiter();
+      const response = await GetJobApplicationbyRecruiter(page);
       // console.log("fs", response.data);
       return response.data;
     } catch (error) {
@@ -220,13 +220,14 @@ export const jobSlice = createSlice({
       state.jobs = null;
       state.message = null;
       state.error = null;
+      state.length = null
     },
     [getJobbyrecruiter.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.jobs = payload.jobs;
       state.message = null;
       state.error = null;
-      // state.length = payload.job;
+      state.length = payload.length;
     },
     [getJobbyrecruiter.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -234,24 +235,24 @@ export const jobSlice = createSlice({
       state.message = null;
       state.error = payload.data.error;
     },
-    [getAllJob.pending]: (state) => {
-      state.loading = true;
-      state.jobs = null;
-      state.message = null;
-      state.error = null;
-    },
-    [getAllJob.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.jobs = payload.jobs;
-      state.message = null;
-      state.error = null;
-    },
-    [getAllJob.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.jobs = null;
-      state.message = null;
-      state.error = payload.data.error;
-    },
+    // [getAllJob.pending]: (state) => {
+    //   state.loading = true;
+    //   state.jobs = null;
+    //   state.message = null;
+    //   state.error = null;
+    // },
+    // [getAllJob.fulfilled]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.jobs = payload.jobs;
+    //   state.message = null;
+    //   state.error = null;
+    // },
+    // [getAllJob.rejected]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.jobs = null;
+    //   state.message = null;
+    //   state.error = payload.data.error;
+    // },
     [getJobbyid.pending]: (state) => {
       state.loading = true;
       state.job = null;
@@ -294,12 +295,14 @@ export const jobSlice = createSlice({
       state.appliedjobs = null;
       state.message = null;
       state.error = null;
+      state.length = null;
     },
     [getUserAppliedJob.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.appliedjobs = payload.applications;
       state.message = null;
       state.error = null;
+      state.length = payload.length;
     },
     [getUserAppliedJob.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -312,12 +315,14 @@ export const jobSlice = createSlice({
       state.appliedjobs = null;
       state.message = null;
       state.error = null;
+      state.length = null;
     },
     [getRecruiterApplication.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.appliedjobs = payload.applications;
       state.message = null;
       state.error = null;
+      state.length = payload.length;
     },
     [getRecruiterApplication.rejected]: (state, { payload }) => {
       state.loading = false;

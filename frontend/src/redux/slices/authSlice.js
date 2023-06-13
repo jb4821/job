@@ -9,6 +9,7 @@ import {
   RecruiterLogoutAPI,
   UserForgotPassword,
   UserResetPassword,
+  ChangePassword,
 } from "../API";
 
 const initialState = {
@@ -42,7 +43,7 @@ export const signInUser = createAsyncThunk(
       navigate("/jobs");
       return response.data;
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response);
     }
   }
@@ -57,6 +58,18 @@ export const userforgotPassword = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "user/changepassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await ChangePassword(data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -198,6 +211,23 @@ export const authSlice = createSlice({
       state.message = payload.data.message;
       state.loading = false;
       toast.error(state.message);
+    },
+    [changePassword.pending]: (state) => {
+      state.loading = true;
+      // state.message = null;
+      state.error = null;
+    },
+    [changePassword.fulfilled]: (state, { payload }) => {
+      // state.message = payload.message;
+      state.loading = false;
+      state.error = null;
+      toast.success(payload.message);
+    },
+    [changePassword.rejected]: (state, { payload }) => {
+      // state.message = payload.data.message;
+      state.loading = false;
+      state.error = payload.error;
+      toast.error(payload.message);
     },
     [userresetPassword.pending]: (state) => {
       state.message = null;

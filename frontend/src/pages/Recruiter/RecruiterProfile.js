@@ -1,23 +1,72 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
 import {
   Container,
   Grid,
   Card,
   CardContent,
+  CardMedia,
   Typography,
-  Button,
   Box,
   IconButton,
-  CardMedia,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
 } from "@mui/material";
 import { Edit, Email, Phone } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import BusinessIcon from "@mui/icons-material/Business";
+import { changePassword } from "../../redux/slices/authSlice";
 
 const RecruiterProfile = () => {
   const { profile } = useSelector((state) => state.auth);
+   const [open, setOpen] = useState(false);
+   const [password, setPassword] = useState("");
+   const [newPassword, setNewPassword] = useState("");
+   const [error, setError] = useState("");
+
+   const dispatch = useDispatch();
+
+   const handleOpen = () => {
+     setOpen(true);
+   };
+
+   const handleClose = () => {
+     setOpen(false);
+     setPassword("");
+     setNewPassword("");
+     setError("");
+   };
+
+   const handleChangePassword = () => {
+     // Perform validation on password and confirm password
+     if (password === "") {
+       setError("Please enter a old password.");
+       return;
+     }
+
+     if (newPassword === "") {
+       setError("Please enter a new password.");
+       return;
+     }
+
+     const change = {
+       oldPassword: password,
+       newPassword: newPassword,
+     };
+     const data = JSON.stringify(change);
+     dispatch(changePassword(data));
+
+     // Reset form and close the modal
+     setPassword("");
+     setNewPassword("");
+     setError("");
+     setOpen(false);
+   };
 
   return (
     <>
@@ -97,11 +146,54 @@ const RecruiterProfile = () => {
               {profile.location}
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-              <button className="btn btn-primary">Change Password</button>
+              <Button
+                variant="contained"
+                onClick={handleOpen}
+                sx={{
+                  backgroundColor: "#4CAF50", // Green color
+                  "&:hover": {
+                    backgroundColor: "#45a049", // Darker green color on hover
+                  },
+                }}
+              >
+                Change Password
+              </Button>
             </Box>
           </CardContent>
         </Card>
       </Container>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Change Password</DialogTitle>
+        <DialogContent>
+          {error && (
+            <Typography color="error" variant="body2" gutterBottom>
+              {error}
+            </Typography>
+          )}
+          <TextField
+            type="password"
+            label="Old Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            type="password"
+            label="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleChangePassword} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

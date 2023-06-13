@@ -41,6 +41,13 @@ export const UserForgotPassword = (data) =>
 export const UserResetPassword = (resetoken, data) =>
   baseAPI.post(`/user/resetpassword/${resetoken}`, data);
 
+  export const ChangePassword = (data) =>
+    AuthAPI.post("/user/changepassword", data, {
+      headers: {
+        Authorization: getAuthorizationHeader(),
+      },
+    });
+
 export const UserLogoutAPI = () =>
   AuthAPI.get("/user/logout", {
     headers: {
@@ -88,12 +95,12 @@ export const GetJobByRecruiterAPI = (page) =>
     },
   });
 
-export const GetAllJobAPI = () =>
-  baseAPI.get("job/alljob", {
-    // headers: {
-    //   Authorization: getAuthorizationHeader(),
-    // },
-  });
+// export const GetAllJobAPI = () =>
+//   baseAPI.get("job/alljob", {
+//     // headers: {
+//     //   Authorization: getAuthorizationHeader(),
+//     // },
+//   });
 
 export const GetJobByIdAPI = (id) =>
   AuthAPI.get(`job/jobbyid/${id}`, {
@@ -102,9 +109,9 @@ export const GetJobByIdAPI = (id) =>
     },
   });
 
-export const GetJobByFilter = ({ title, category, salary }) =>
+export const GetJobByFilter = ({ title, category, salary, page }) =>
   baseAPI.get(
-    `job/alljob?title=${title}&category=${category}&salary=${salary}`
+    `job/alljob?title=${title}&category=${category}&salary=${salary}&page=${page}`
     // {
     //   headers: {
     //     Authorization: getAuthorizationHeader(),
@@ -118,15 +125,15 @@ export const ApplyJob = (data) =>
     },
   });
 
-export const GetAppliedJobbyUser = () =>
-  AuthAPI.get("jobApply/byuser", {
+export const GetAppliedJobbyUser = (page) =>
+  AuthAPI.get(`jobApply/byuser?page=${page}`, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },
   });
 
-export const GetJobApplicationbyRecruiter = () =>
-  AuthAPI.get("jobApply/byrecruiter", {
+export const GetJobApplicationbyRecruiter = (page) =>
+  AuthAPI.get(`jobApply/byrecruiter?page=${page}`, {
     headers: {
       Authorization: getAuthorizationHeader(),
     },

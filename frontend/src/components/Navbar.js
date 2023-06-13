@@ -64,7 +64,7 @@ const Navbar = () => {
               </a>
               {menu && (
                 <div className="manageandlogin">
-                  <Link to={"/userprofile"}>Profile</Link>
+                  <Link to={"/userprofile"}>Profile </Link>
                   <br />
                   <Link to={"/userapplication"}>Applied Job</Link>
                   <br />
@@ -85,14 +85,15 @@ const Navbar = () => {
                 <Link to={"/addjob"}>Add Job</Link>
               </span>
 
-              <a>
-                <img
+              <a onClick={handleShowMenu}>
+                <Avatar src={profile?.profileImg} />
+                {/* <img
                   onClick={handleShowMenu}
                   src={profile?.profileImg}
                   width={50}
                   height={50}
                   alt=""
-                />
+                /> */}
               </a>
               {menu && (
                 <div className="manageandlogin">

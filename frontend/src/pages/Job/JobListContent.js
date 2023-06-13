@@ -13,23 +13,23 @@ import { filterData } from "../../redux/slices/searchSlice";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SearchJob from "../../components/Search";
+import { Grid, Pagination } from "@mui/material";
 
 const JobListContent = () => {
-  //   const { id } = useParams();
-  // console.log("id", id);
+    const { id } = useParams();
+
+    const [page,setPage] = useState(1);
+  
   const dispatch = useDispatch();
   const {profile, role} = useSelector((state) => state.auth);
-  // console.log("id", id);
-  const { jobs, loading } = useSelector((state) => state.search);
+  // console.log("profile", profile._id);
+  const { jobs, loading, length } = useSelector((state) => state.search);
   // console.log(jobs);
 
   const token = localStorage.getItem("token")
     ? localStorage.getItem("token")
     : null;
 
-  const sortedJobs = [...jobs].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
 
   const [openModal, setOpenModal] = useState({});
   const [applyModal, setApplyModal] = useState({});
@@ -88,20 +88,13 @@ const JobListContent = () => {
     FileData.append("recruiterId", selectedJobdetails.recruiterId._id);
     FileData.append("resume", resumeFile);
     dispatch(applyforJob({ data: FileData }));
-    // console.log("Selected Job ID:", selectedJob);
-    // console.log("Resume File:", resumeFile);
-    // console.log("recruiter", selectedJobdetails.recruiterId._id);
-
-    // Reset state variables
-    // setSelectedJob("");
-    // setResumeFile(null);
 
     handleApplyClose(selectedJob);
   };
 
   // useEffect(() => {
-  //   dispatch(filterData());
-  // }, []);
+  //   dispatch(filterData(page));
+  // }, [page]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -112,7 +105,6 @@ const JobListContent = () => {
 
   return (
     <>
-      
       <SearchJob />
       {loading ? (
         <Loading />
@@ -123,7 +115,7 @@ const JobListContent = () => {
             <div id="tab-1" className="tab-pane fade show p-0 active">
               <h1 className="h5 text-center mt-4">Job List</h1>
 
-              {sortedJobs.map((job, index) => {
+              {jobs?.map((job, index) => {
                 const isModalOpen = openModal[job._id] || false;
                 const isApplyModal = applyModal[job._id] || false;
                 return (
@@ -136,7 +128,7 @@ const JobListContent = () => {
                           alt=""
                           style={{ width: "80px", height: "80px" }}
                         />
-                        {console.log(job.recruiterId.profileImg)}
+
                         <div className="text-start ps-4">
                           <h5 className="mb-3">{job.jobTitle}</h5>
                           <span className="text-truncate me-3">
@@ -217,20 +209,20 @@ const JobListContent = () => {
                                   id="modal-modal-description"
                                   sx={{ mt: 2 }}
                                 >
-                                  JobTitle: {job?.jobTitle}
+                                  <b>JobTitle</b>: {job?.jobTitle}
                                   {/* {console.log("job", job)} */}
                                   <br />
-                                  Category: {job.category}
+                                  <b>Category</b>: {job.category}
                                   <br />
-                                  Description: {job.description}
+                                  <b>Description</b>: {job.description}
                                   <br />
-                                  Salary: {job.salary}
+                                  <b>Salary</b>: {job.salary}
                                   <br />
-                                  Experience: {job.experience}
+                                  <b>Experience</b>: {job.experience}
                                   <br />
-                                  Company: {job.recruiterId.company}
+                                  <b>Company</b>: {job.recruiterId.company}
                                   <br />
-                                  Location: {job.recruiterId.location}
+                                  <b>Location</b>: {job.recruiterId.location}
                                 </Typography>
                               </Box>
                             </Modal>
@@ -313,9 +305,19 @@ const JobListContent = () => {
               })}
             </div>
           </div>
+          <div>
+            <Grid container justifyContent="center">
+              <Pagination
+                count={Math.ceil(length / 3)}
+                page={page}
+                onChange={(event, page) => setPage(page)}
+                size="large"
+                color="primary"
+              />
+            </Grid>
+          </div>
         </>
       )}
-     
     </>
   );
 };

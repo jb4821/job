@@ -102,13 +102,14 @@
 // export default Search;
 
 import React, { useEffect, useState } from "react";
-import { Grid, Box, TextField, Button, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { Grid, Box, TextField, Button, Typography, Pagination } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { filterData } from "../redux/slices/searchSlice";
 
 const Search = () => {
   const dispatch = useDispatch();
-
+  const { length } = useSelector((state) => state.search)
+  const [page, setPage] = useState(1);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [salary, setSalary] = useState("");
@@ -126,8 +127,8 @@ const Search = () => {
   };
 
   useEffect(() => {
-    dispatch(filterData({ title, category, salary }));
-  }, [salary, category, title]);
+    dispatch(filterData({ title, category, salary, page }));
+  }, [salary, category, title, page]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -138,67 +139,80 @@ const Search = () => {
         salary,
       })
     );
-    setTitle("");
+    // setTitle("");
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "2rem",
-        background: "#f2f2f2",
-        borderRadius: "8px",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <Grid container spacing={2} alignItems="center">
-        <Grid item>
-          <Typography variant="h5">Filter Jobs</Typography>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "2rem",
+          background: "#f2f2f2",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <Typography variant="h5">Filter Jobs</Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              id="title"
+              label="Title"
+              value={title}
+              onChange={handleTitleChange}
+              variant="outlined"
+              sx={{ width: "200px" }}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="category"
+              label="Category"
+              value={category}
+              onChange={handleCategoryChange}
+              variant="outlined"
+              sx={{ width: "200px" }}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="salary"
+              label="Salary"
+              value={salary}
+              onChange={handleSalaryChange}
+              variant="outlined"
+              sx={{ width: "200px" }}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+            >
+              Search
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <TextField
-            id="title"
-            label="Title"
-            value={title}
-            onChange={handleTitleChange}
-            variant="outlined"
-            sx={{ width: "200px" }}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            id="category"
-            label="Category"
-            value={category}
-            onChange={handleCategoryChange}
-            variant="outlined"
-            sx={{ width: "200px" }}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            id="salary"
-            label="Salary"
-            value={salary}
-            onChange={handleSalaryChange}
-            variant="outlined"
-            sx={{ width: "200px" }}
-          />
-        </Grid>
-        <Grid item>
-          <Button
-            type="submit"
-            variant="contained"
+      </Box>
+      <div>
+        <Grid container justifyContent="center">
+          <Pagination
+            count={Math.ceil(length / 3)}
+            page={page}
+            onChange={(event, page) => setPage(page)}
+            size="large"
             color="primary"
-            onClick={handleSubmit}
-          >
-            Search
-          </Button>
+          />
         </Grid>
-      </Grid>
-    </Box>
+      </div>
+    </>
   );
 };
 

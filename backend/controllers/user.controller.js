@@ -174,65 +174,73 @@ const resetPassword = async (req, res) => {
 
 //change password
 
-// const changePassword =  async (req, res) => {
-//   const { currentPassword, newPassword } = req.body;
-//   // const userId = req.user._id;
-
-//   try {
-//     // Implement your logic to verify the current password and update the new password
-//     const user = await User.find({_id:req.user._id}); // Replace 'User' with your actual user model
-// console.log("dfd");
-// console.log(currentPassword);
-// console.log(newPassword);
-// console.log(user.name);
-// console.log(user);
-// console.log(req.user._id);
-// console.log(user._id)
-//  const password = user.map(async (item) => {
-//    console.log(item.password);
-
-//    const isMatch = await bcrypt.compare(currentPassword, item.password);
-//    console.log("hkjhh");
-//    if (!isMatch) {
-//      return res.status(401).json({ error: "Invalid current password" });
-//    }
-
-//    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-//    user.password = hashedPassword;
-//    await user.save();
-//  });
-//     res.status(200).json({ message: "Password changed successfully" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
 const changePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
+  const { oldPassword, newPassword } = req.body;
 
   try {
-    const users = await User.find({ id: req.user.id });
-
-    for (const user of users) {
-      const isMatch = await bcrypt.compare(currentPassword, user.password);
-      console.log("match",isMatch);
-      if (!isMatch) {
-        return res.status(401).json({ error: "Invalid current password" });
-      }
-
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      user.password = hashedPassword;
-      await user.save();
+    // Validate the form data
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: "Please fill in all fields." });
     }
 
-    res.status(200).json({ message: "Password changed successfully" });
+    let user;
+    let recruiter;
+    let isPasswordValid;
+
+    if (req.user) {
+      // User authentication
+      user = await User.findOne({ _id: req.user.id });
+
+      if (!user) {
+        return res
+          .status(401)
+          .json({ message: "User not found.", toast: true });
+      }
+
+      isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    } else if (req.recruiter) {
+      // Recruiter authentication
+      recruiter = await Recruiter.findOne({ _id: req.recruiter.id });
+
+      if (!recruiter) {
+        return res
+          .status(401)
+          .json({ message: "Recruiter not found.", toast: true });
+      }
+
+      isPasswordValid = await bcrypt.compare(oldPassword, recruiter.password);
+    } else {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized access.", toast: true });
+    }
+
+    if (!isPasswordValid) {
+      return res
+        .status(401)
+        .json({ message: "Invalid old password.", toast: true });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's or recruiter's password
+    if (user) {
+      user.password = hashedPassword;
+      await user.save();
+    } else if (recruiter) {
+      recruiter.password = hashedPassword;
+      await recruiter.save();
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Password changed successfully.", toast: true });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
+
 
 
 // Logout User

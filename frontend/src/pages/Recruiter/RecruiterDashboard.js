@@ -5,25 +5,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteJob, getJobbyrecruiter } from "../../redux/slices/jobSlice";
 import Loading from "../../components/Loading";
 import { Link } from "react-router-dom";
+import { Grid, Pagination } from "@mui/material";
 
 const RecruiterDashboard = () => {
   //   const [job, setJob] = useState([]);
   const dispatch = useDispatch();
-  const { jobs, loading, is_update, is_deleted } = useSelector(
+  const { jobs, loading, is_update, is_deleted, length } = useSelector(
     (state) => state.jobs
   );
   console.log(jobs);
   const [jobList, setjobList] = useState([]);
+  const [page, setPage] = useState(1)
   useEffect(() => {
-    dispatch(getJobbyrecruiter());
-  }, [dispatch]);
+    dispatch(getJobbyrecruiter(page));
+  }, [dispatch, page]);
 
   useEffect(() => {
-    dispatch(getJobbyrecruiter());
-  }, [dispatch, is_update]);
+    dispatch(getJobbyrecruiter(page));
+  }, [dispatch, is_update,page]);
   useEffect(() => {
-    dispatch(getJobbyrecruiter());
-  }, [dispatch, is_deleted]);
+    dispatch(getJobbyrecruiter(page));
+  }, [dispatch, is_deleted,page]);
   useEffect(() => {
     setjobList(jobs);
     console.log(jobs);
@@ -68,7 +70,7 @@ const RecruiterDashboard = () => {
                               {job.recruiterId.location}
                             </span>
                             <span className="text-truncate me-3">
-                              <i className="far fa-clock text-primary me-2"></i>
+                              <i className="fas fa-code text-primary me-2"></i>
                               {job.category}
                             </span>
                             <span className="text-truncate me-3">
@@ -76,11 +78,14 @@ const RecruiterDashboard = () => {
                               {job.salary}
                             </span>
                             <span className="text-truncate me-3">
-                              <i className="far fa-money-bill-alt text-primary me-2"></i>
+                              <i
+                                className="fa fa-building text-primary me-2"
+                                aria-hidden="true"
+                              ></i>
                               {job.recruiterId.company}
                             </span>
                             <span className="text-truncate me-0">
-                              <i className="far fa-money-bill-alt text-primary me-2"></i>
+                              <i className="fas fa-briefcase text-primary me-2"></i>
                               {job.experience}
                             </span>
                           </div>
@@ -112,6 +117,21 @@ const RecruiterDashboard = () => {
                     </div>
                   );
                 })}
+                <div>
+                  <Grid container justifyContent="center">
+                    <Pagination
+                      count={Math.ceil(length / 3)}
+                      page={page}
+                      // onChange={(event, newPage) => setPage(newPage)}
+                      // initialPage={1}
+                      onChange={(event, page) => setPage(page)}
+                      size="large"
+                      color="primary"
+                      // variant="outlined"
+                      // shape="rounded"
+                    />
+                  </Grid>
+                </div>
               </>
             )}
           </div>

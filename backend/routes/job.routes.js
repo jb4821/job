@@ -27,6 +27,6 @@ router.get("/jobbyrecruiter", auth, getJobbyrecruiter);
 // router.get("/jobBySalary", auth, getJobBySalary);
 // router.get("/jobByTime", auth, getJobByTime);
 // router.get("/jobByLocation", auth, getJobsByLocation);
-router.get("/jobbysearch", getSearchResult);
+// router.get("/jobbysearch", getSearchResult);
 
 module.exports = router;

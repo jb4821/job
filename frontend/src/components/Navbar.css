@@ -24,6 +24,7 @@
   align-items: center;
   gap: 24px;
   font-weight: 500;
+  
 }
 
 .navbar .container .links .span:hover {
@@ -72,7 +73,11 @@
   width: 100%;
   text-align: left;
   color: #000 !important;
+  cursor: pointer;
 }
-.manageandlogin a:hover {
+/* .manageandlogin a:hover {
   background: #d2f2e7;
-}
+} */
+/* .manageandlogin .link-container {
+ margin-bottom: 10px;
+} */

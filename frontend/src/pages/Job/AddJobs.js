@@ -55,22 +55,22 @@ const AddJobs = () => {
     }
 
     if (category.trim() === "") {
-      newError.categoryError = "Jobtitle is required";
+      newError.categoryError = "Category is required";
       valid = false;
     }
 
     if (description.trim() === "") {
-      newError.descriptionError = "Jobtitle is required";
+      newError.descriptionError = "Description is required";
       valid = false;
     }
 
     if (salary.trim() === "") {
-      newError.salaryError = "Jobtitle is required";
+      newError.salaryError = "Salary is required";
       valid = false;
     }
 
     if (experience.trim() === "") {
-      newError.experienceError = "Jobtitle is required";
+      newError.experienceError = "Experience is required";
       valid = false;
     }
 

@@ -8,11 +8,14 @@ import {
   updateStatus,
 } from "../../redux/slices/jobSlice";
 import { Link } from "react-router-dom";
+import { Grid, Pagination } from "@mui/material";
 
 const RecruiterApplication = () => {
+  const [page, setPage] = useState(1);
+
   const dispatch = useDispatch();
   const {profile} = useSelector((state) => state.auth);
-  const { appliedjobs, loading, is_update } = useSelector((state) => state.jobs);
+  const { appliedjobs, loading, is_update, length } = useSelector((state) => state.jobs);
   
   // const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -24,8 +27,8 @@ const RecruiterApplication = () => {
 
 
   useEffect(() => {
-    dispatch(getRecruiterApplication());
-  }, [dispatch,is_update]);
+    dispatch(getRecruiterApplication(page));
+  }, [dispatch, is_update, page]);
 
   return (
     <>
@@ -125,6 +128,17 @@ const RecruiterApplication = () => {
           </table>
         </div>
       )}
+      <div>
+        <Grid container justifyContent="center">
+          <Pagination
+            count={Math.ceil(length / 3)}
+            page={page}
+            onChange={(event, page) => setPage(page)}
+            size="large"
+            color="primary"
+          />
+        </Grid>
+      </div>
     </>
   );
 };
