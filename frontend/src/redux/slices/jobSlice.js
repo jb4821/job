@@ -4,7 +4,6 @@ import {
   UpdateJobAPI,
   DeleteJobAPI,
   GetJobByRecruiterAPI,
-  GetAllJobAPI,
   GetJobByIdAPI,
   ApplyJob,
   GetAppliedJobbyUser,
@@ -28,7 +27,6 @@ export const addJob = createAsyncThunk(
   "job/create",
   async (data, { rejectWithValue }) => {
     try {
-      // console.log(data);
       const response = await AddJobAPI(data);
       return response.data;
     } catch (error) {
@@ -51,8 +49,9 @@ export const updateJob = createAsyncThunk(
 
 export const deleteJob = createAsyncThunk(
   "job/delete",
-  async (_id, { rejectWithValue }) => {
+  async ({_id,dispatch}, { rejectWithValue }) => {
     try {
+      dispatch(getJobbyrecruiter());
       const response = await DeleteJobAPI(_id);
       return response.data;
     } catch (error) {
@@ -73,26 +72,11 @@ export const getJobbyrecruiter = createAsyncThunk(
   }
 );
 
-// export const getAllJob = createAsyncThunk(
-//   "job/alljob",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await GetAllJobAPI();
-
-//       // console.log("ds", response.data);
-//       return response.data;
-//     } catch (error) {
-//       return rejectWithValue(error.response);
-//     }
-//   }
-// );
-
 export const getJobbyid = createAsyncThunk(
   "job/jobbyid",
   async (id, { rejectWithValue }) => {
     try {
       const response = await GetJobByIdAPI(id);
-      // console.log("ds", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -118,10 +102,8 @@ export const getUserAppliedJob = createAsyncThunk(
   async (page, { rejectWithValue }) => {
     try {
       const response = await GetAppliedJobbyUser(page);
-      // console.log("fs", response.data);
       return response.data;
     } catch (error) {
-      
       return rejectWithValue(error.response);
     }
   }
@@ -132,7 +114,6 @@ export const getRecruiterApplication = createAsyncThunk(
   async (page, { rejectWithValue }) => {
     try {
       const response = await GetJobApplicationbyRecruiter(page);
-      // console.log("fs", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response);
@@ -145,9 +126,8 @@ export const updateStatus = createAsyncThunk(
   async ({ id, status }, { rejectWithValue }) => {
     try {
       const response = await UpdateStatus(id, status);
-      console.log(response);
       if (response.data.toast) {
-        // Display the toast message using your preferred toast library or custom implementation
+        
         console.log(response.data.message);
       }
       return response.data;
@@ -235,24 +215,6 @@ export const jobSlice = createSlice({
       state.message = null;
       state.error = payload.data.error;
     },
-    // [getAllJob.pending]: (state) => {
-    //   state.loading = true;
-    //   state.jobs = null;
-    //   state.message = null;
-    //   state.error = null;
-    // },
-    // [getAllJob.fulfilled]: (state, { payload }) => {
-    //   state.loading = false;
-    //   state.jobs = payload.jobs;
-    //   state.message = null;
-    //   state.error = null;
-    // },
-    // [getAllJob.rejected]: (state, { payload }) => {
-    //   state.loading = false;
-    //   state.jobs = null;
-    //   state.message = null;
-    //   state.error = payload.data.error;
-    // },
     [getJobbyid.pending]: (state) => {
       state.loading = true;
       state.job = null;
@@ -273,13 +235,11 @@ export const jobSlice = createSlice({
     },
     [applyforJob.pending]: (state) => {
       state.loading = true;
-      // state.job = null;
       state.message = null;
       state.error = null;
     },
     [applyforJob.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      // state.job = payload.application;
       state.message = null;
       state.error = null;
       toast.success("Applied successfully");

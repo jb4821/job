@@ -65,6 +65,7 @@ const loginUser = async (req, res) => {
 };
 
 // get User Profile
+
 const getProfile = (req, res) => {
   try {
     const user = req.user;
@@ -77,6 +78,7 @@ const getProfile = (req, res) => {
 };
 
 //forgot password
+
 const forgotPassword = async (req, res) => {
   if (!req.body.email)
     return res
@@ -120,6 +122,7 @@ const forgotPassword = async (req, res) => {
 };
 
 //reset password
+
 const resetPassword = async (req, res) => {
   try {
     const hashedToken = crypto

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // Register recruiter
+
 const registerRecruiter = async (req, res) => {
   try {
     const {
@@ -71,6 +72,7 @@ const loginRecruiter = async (req, res) => {
 };
 
 // get Recruiter Profile
+
 const getProfile = (req, res) => {
   try {
     const recruiter = req.recruiter;

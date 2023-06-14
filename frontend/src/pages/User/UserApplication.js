@@ -8,14 +8,12 @@ import { Grid, Pagination } from "@mui/material";
 
 const UserApplication = () => {
   const [page, setPage] = useState(1);
+
   const dispatch = useDispatch();
+
   const id = useSelector((state) => state.auth.profile._id);
-  // console.log("userid", id);
   const { appliedjobs, loading , length} = useSelector((state) => state.jobs);
-  // console.log("llll",appliedjobs)
-
-  // const [list, setList] = useState([]);
-
+  
   useEffect(() => {
     dispatch(getUserAppliedJob(page));
   }, [dispatch, page]);

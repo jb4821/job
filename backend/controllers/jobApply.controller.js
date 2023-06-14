@@ -7,11 +7,11 @@ const {
 } = require("../utils/Mail");
 
 //apply for job
+
 const applyForJob = async (req, res) => {
   try {
     const { jobId, recruiterId } = req.body;
 
-    console.log("user",req.user.id);
     const existingApplication = await JobApply.findOne({
       userId: req.user.id,
       jobId,
@@ -79,6 +79,7 @@ const getByRecruiter = async (req, res) => {
 };
 
 //get by user id
+
 const getByUser = async (req, res) => {
   try {
      const page = parseInt(req.query.page);
@@ -108,6 +109,7 @@ const getByUser = async (req, res) => {
 };
 
 //update status
+
 const updateStatus = async (req, res) => {
   try {
     const { status } = req.body;

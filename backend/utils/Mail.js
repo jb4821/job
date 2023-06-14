@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+//reset password mail
+
 const sendMail = async(email,message) => {
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",
@@ -25,6 +27,9 @@ const sendMail = async(email,message) => {
     }
   })
 }
+
+//job apply mail
+
 const sendApplyJobMail = async (email, message) => {
     let mailTransporter = nodemailer.createTransport({
       service: "gmail",
@@ -50,6 +55,8 @@ const sendApplyJobMail = async (email, message) => {
     })
 }
 
+// accepted mail
+
 const sendAcceptJobMail = async (email, message) => {
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",
@@ -74,6 +81,8 @@ const sendAcceptJobMail = async (email, message) => {
     }
   });
 };
+
+//rejected mail
 
 const sendRejectJobMail = async (email, message) => {
   let mailTransporter = nodemailer.createTransport({

@@ -8,14 +8,19 @@ import { Link } from "react-router-dom";
 import { Grid, Pagination } from "@mui/material";
 
 const RecruiterDashboard = () => {
-  //   const [job, setJob] = useState([]);
+ 
   const dispatch = useDispatch();
   const { jobs, loading, is_update, is_deleted, length } = useSelector(
     (state) => state.jobs
   );
-  console.log(jobs);
+ 
   const [jobList, setjobList] = useState([]);
   const [page, setPage] = useState(1)
+
+  useEffect(() => {
+    dispatch(getJobbyrecruiter(page));
+  }, [dispatch, is_deleted, page]);
+
   useEffect(() => {
     dispatch(getJobbyrecruiter(page));
   }, [dispatch, page]);
@@ -23,12 +28,11 @@ const RecruiterDashboard = () => {
   useEffect(() => {
     dispatch(getJobbyrecruiter(page));
   }, [dispatch, is_update,page]);
-  useEffect(() => {
-    dispatch(getJobbyrecruiter(page));
-  }, [dispatch, is_deleted,page]);
+
+  
+
   useEffect(() => {
     setjobList(jobs);
-    console.log(jobs);
   }, [jobs]);
 
   function formatDate(dateString) {
@@ -62,7 +66,6 @@ const RecruiterDashboard = () => {
                             alt=""
                             style={{ width: "80px", height: "80px" }}
                           />
-                          {console.log(job.recruiterId.profileImg)}
                           <div className="text-start ps-4">
                             <h5 className="mb-3">{job.jobTitle}</h5>
                             <span className="text-truncate me-3">
@@ -96,7 +99,7 @@ const RecruiterDashboard = () => {
                               className="btn btn-primary me-2"
                               href=""
                               onClick={() => {
-                                dispatch(deleteJob(job._id));
+                                dispatch(deleteJob({_id: job._id, dispatch } ));
                               }}
                             >
                               Delete
@@ -122,13 +125,9 @@ const RecruiterDashboard = () => {
                     <Pagination
                       count={Math.ceil(length / 3)}
                       page={page}
-                      // onChange={(event, newPage) => setPage(newPage)}
-                      // initialPage={1}
                       onChange={(event, page) => setPage(page)}
                       size="large"
                       color="primary"
-                      // variant="outlined"
-                      // shape="rounded"
                     />
                   </Grid>
                 </div>

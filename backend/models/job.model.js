@@ -19,11 +19,6 @@ const jobSchema = new mongoose.Schema(
       ref: "Recruiter",
     },
 
-    //   location: {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: "Recruiter",
-    //   },
-
     description: {
       type: String,
       trim: true,

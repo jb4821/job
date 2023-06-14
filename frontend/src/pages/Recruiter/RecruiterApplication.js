@@ -16,8 +16,6 @@ const RecruiterApplication = () => {
   const dispatch = useDispatch();
   const {profile} = useSelector((state) => state.auth);
   const { appliedjobs, loading, is_update, length } = useSelector((state) => state.jobs);
-  
-  // const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleStatusClick = (application,status) => {
     dispatch(
@@ -53,7 +51,7 @@ const RecruiterApplication = () => {
             {appliedjobs === null ? (
               <h2
                 style={{
-                  // display: "flex",
+        
                   textAlign: "center",
                   justifyContent: "center",
                   alignItems: "center",
@@ -79,7 +77,7 @@ const RecruiterApplication = () => {
                               <h5 className="mb-0">
                                 {application.userId.name}
                               </h5>
-                              {/* <p className="text-muted mb-0">@kiranacharyaa</p> */}
+                              
                             </div>
                           </div>
                         </td>
@@ -88,9 +86,7 @@ const RecruiterApplication = () => {
                             <h4 className="mr-1">
                               {application.userId.mobile}
                             </h4>
-                            {/* <small className="text-success">
-                          <i className="fa fa-arrow-up"></i>5%
-                        </small> */}
+                           
                           </div>
                         </td>
                         <td>{application.userId.email}</td>

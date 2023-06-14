@@ -10,12 +10,10 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { teal } from "@mui/material/colors";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpRecruiter } from "../../redux/slices/authSlice";
 
@@ -39,17 +37,11 @@ const RecruiterSignUp = () => {
     passwordError: "",
     profilepicError: null,
   })
-  // console.log(profilepic);
+ 
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token, loading } = useSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("/");
-  //   }
-  // }, [token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -96,6 +88,7 @@ const RecruiterSignUp = () => {
       valid = false;
     }
 
+
     setErrors(newError);
 
     if (valid) {
@@ -108,7 +101,6 @@ const RecruiterSignUp = () => {
       recruiterData.append("location", location);
       recruiterData.append("password", password);
       recruiterData.append("profileImg", profilepic);
-      console.log(profilepic);
   
       dispatch(signUpRecruiter({ recruiter: recruiterData, navigate }));
 
@@ -233,6 +225,7 @@ const RecruiterSignUp = () => {
 
                 <Grid item xs={12}>
                   <Grid item xs={12}>
+                    <label htmlFor="img">Profile Image:</label>
                     <input
                       type="file"
                       id="img"
@@ -240,7 +233,9 @@ const RecruiterSignUp = () => {
                       accept="image/*"
                       required
                       onChange={(e) => setProfilepic(e.target.files[0])}
+                      
                     />
+                    
                   </Grid>
                 </Grid>
               </Grid>
@@ -251,9 +246,9 @@ const RecruiterSignUp = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#4CAF50", // Green color
+                  backgroundColor: "#4CAF50", 
                   "&:hover": {
-                    backgroundColor: "#45a049", // Darker green color on hover
+                    backgroundColor: "#45a049", 
                   },
                 }}
               >

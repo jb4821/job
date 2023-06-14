@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "../../redux/slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
-// import { ToastContainer, toast } from "react-toastify";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,7 +18,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "../../components/Navbar";
-import { FormHelperText } from "@mui/material";
 
 const defaultTheme = createTheme();
 
@@ -44,12 +42,6 @@ const UserSignUp = () => {
     profileimgError: "",
   });
 
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("/");
-  //   }
-  // }, [token]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -66,8 +58,6 @@ const UserSignUp = () => {
 
     if (name.trim() === "") {
       newError.nameError = "Name is required";
-      // console.log("name is required");
-      console.log(newError.nameError);
       valid = false;
     }
 
@@ -151,9 +141,6 @@ const UserSignUp = () => {
                     error={errors.nameError !== ""}
                     helperText={errors.nameError}
                   />
-                  {/* {errors.nameError && (
-                    <FormHelperText error>{errors.nameError}</FormHelperText>
-                  )} */}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -229,13 +216,13 @@ const UserSignUp = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  <label htmlFor="img">Profile Image:</label>
                   <Grid item xs={12}>
                     <input
                       type="file"
                       id="img"
                       name="img"
                       accept="image/*"
-                      label="Profile Image"
                       required
                       onChange={(e) => setProfileimg(e.target.files[0])}
                       error={errors.profileimgError !== ""}
@@ -251,7 +238,7 @@ const UserSignUp = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#4CAF50", 
+                  backgroundColor: "#4CAF50",
                   "&:hover": {
                     backgroundColor: "#45a049",
                   },

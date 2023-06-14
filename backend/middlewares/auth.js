@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
     if (decoded.role === "user") {
       const user = await User.findOne({
         _id: decoded._id,
-        // isDeleted: false,
+       
       });
 
       

@@ -74,8 +74,6 @@ const deleteJob = async (req, res) => {
     if (!job) {
       return res.status(404).json({ message: "Job not found!" });
     }
-    console.log(job.recruiterId);
-    console.log(req.recruiter.id);
 
     if (job.recruiterId == req.recruiter.id) {
       job.isDeleted = true;
@@ -93,9 +91,7 @@ const deleteJob = async (req, res) => {
 
 const getJobbyrecruiter = async (req, res) => {
   try {
-    // const page = parseInt(req.query.page) || 1; // Current page number
-    // const limit = parseInt(req.query.limit) || 5; // Number of jobs per page
-
+   
     const page = parseInt(req.query.page);
     const skipIndex = (page - 1) * 3;
 
@@ -103,9 +99,6 @@ const getJobbyrecruiter = async (req, res) => {
       recruiterId: req.recruiter._id,
       isDeleted: false,
     });
-
-    // const totalPages = Math.ceil(count / limit);
-    // const skip = (page - 1) * limit;
 
     const jobs = await Job.find({
       recruiterId: req.recruiter._id,
@@ -127,7 +120,6 @@ const getJobbyrecruiter = async (req, res) => {
 const getAllJob = async (req, res) => {
   const query = req.query;
   
-  // console.log(query);
   const filters = {
     ...(query.title && { jobTitle: { $regex: query.title, $options: "i" } }),
     ...(query.category && {
@@ -141,7 +133,7 @@ const getAllJob = async (req, res) => {
     const page = parseInt(req.query.page);
     const skipIndex = (page - 1) * 3;
 
-    const allJob = await Job.find({ isDeleted: false })
+    const allJob = await Job.find({ isDeleted: false, ...filters })
     const jobs = await Job.find({ isDeleted: false, ...filters })
       .populate({
         path: "recruiterId",
@@ -168,56 +160,12 @@ const getJobbyid = async (req, res) => {
       _id: req.params.id,
       isDeleted: false,
     });
-    // console.log(job);
-    // console.log(req.recruiter._id);
+    
     return res.status(200).json({ jobs: job });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
 };
-
-// search
-
-// const getSearchResult = async (req, res) => {
-//   try {
-//     const { title, category, salary } = req.query;
-
-//     const sanitizedString = (string) => {
-//       if (!string) {
-//         return "";
-//       }
-//       return string.replace(/[^a-zA-Z0-9]/g, " ");
-//     };
-
-//     const searchResult = await Job.find({
-//       $or: [
-//         {
-//           jobTitle: { $regex: sanitizedString(title), $options: "i" },
-//           isDeleted: false,
-//         },
-//         {
-//           category: { $regex: sanitizedString(category), $options: "i" },
-//           isDeleted: false,
-//         },
-//         {
-//           salary: { $regex: sanitizedString(salary), $options: "i" },
-//           isDeleted: false,
-//         },
-//       ],
-//     }).sort({ createdAt: -1 });
-
-//     if (searchResult.length !== 0) {
-//       return res.status(200).json({ search: searchResult });
-//     } else {
-//       return res.status(400).json({ message: "There are no jobs found." });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(400).json({ error: error.message });
-//   }
-// };
-
-
 
 module.exports = {
   createJob,
@@ -226,5 +174,4 @@ module.exports = {
   getJobbyrecruiter,
   getAllJob,
   getJobbyid,
-  // getSearchResult,
 };

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 require("dotenv");
 
 const recruiterSchema = new mongoose.Schema(
@@ -48,10 +49,9 @@ const recruiterSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    // confirmPassword: {
-    //   type: String,
-    //   trim: true,
-    // },
+    passwordChangedAt: String,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
   },
   {
     timestamps: true,
@@ -78,6 +78,18 @@ recruiterSchema.methods.toJSON = function () {
   delete recruiterObject.updatedAt;
   delete recruiterObject.__v;
   return recruiterObject;
+};
+
+recruiterSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  return resetToken;
 };
 
 module.exports = mongoose.model("Recruiter", recruiterSchema);

@@ -58,8 +58,10 @@ export const UserLogoutAPI = () =>
 //Recruiter
 export const RecruiterRegisterAPI = (data) =>
   formAPI.post("/recruiter/register", data);
+
 export const RecruiterLoginAPI = (data) =>
   baseAPI.post("/recruiter/login", data);
+
 export const RecruiterLogoutAPI = () =>
   AuthAPI.get("/recruiter/logout", {
     headers: {
@@ -95,12 +97,6 @@ export const GetJobByRecruiterAPI = (page) =>
     },
   });
 
-// export const GetAllJobAPI = () =>
-//   baseAPI.get("job/alljob", {
-//     // headers: {
-//     //   Authorization: getAuthorizationHeader(),
-//     // },
-//   });
 
 export const GetJobByIdAPI = (id) =>
   AuthAPI.get(`job/jobbyid/${id}`, {
@@ -112,12 +108,9 @@ export const GetJobByIdAPI = (id) =>
 export const GetJobByFilter = ({ title, category, salary, page }) =>
   baseAPI.get(
     `job/alljob?title=${title}&category=${category}&salary=${salary}&page=${page}`
-    // {
-    //   headers: {
-    //     Authorization: getAuthorizationHeader(),
-    //   },
-    // }
+    
   );
+  
 export const ApplyJob = (data) =>
   formAPI.post("jobApply/apply", data, {
     headers: {

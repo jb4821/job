@@ -46,13 +46,6 @@
 }
 
 .manageandlogin {
-  /* position: absolute;
-  width: 170px;
-  background: #fff;
-  border: 1px solid #0f0f0f36;
-  border-top: none;
-  top: 65px;
-  right: 0; */
   position: absolute;
   top: 50px;
   right: 0;
@@ -75,9 +68,3 @@
   color: #000 !important;
   cursor: pointer;
 }
-/* .manageandlogin a:hover {
-  background: #d2f2e7;
-} */
-/* .manageandlogin .link-container {
- margin-bottom: 10px;
-} */

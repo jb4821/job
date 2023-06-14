@@ -1,13 +1,14 @@
 import React from 'react'
 import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import JobListContent from './JobListContent';
+import Footer from '../../components/Footer'; 
+import Search from '../../components/Search';
+
 
 const JobList = () => {
   return (
     <>
       <Navbar />
-      <JobListContent />
+      <Search />
       <Footer />
     </>
   );

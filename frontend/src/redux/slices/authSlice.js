@@ -26,10 +26,9 @@ export const signUpUser = createAsyncThunk(
     try {
       const response = await UserRegisterAPI(user);
       navigate("/jobs");
-      console.log(response.data);
       return response.data;
+
     } catch (error) {
-      console.log(rejectWithValue(error.response));
       return rejectWithValue(error.response);
     }
   }
@@ -56,7 +55,6 @@ export const userforgotPassword = createAsyncThunk(
       const response = await UserForgotPassword(data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response);
     }
   }
@@ -82,7 +80,6 @@ export const userresetPassword = createAsyncThunk(
       navigate("/login");
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response);
     }
   }
@@ -93,11 +90,9 @@ export const logoutUser = createAsyncThunk(
   async ({ navigate }, { rejectWithValue }) => {
     try {
       const response = await UserLogoutAPI();
-      console.log(response.data);
       navigate("/login");
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response);
     }
   }
@@ -107,13 +102,10 @@ export const signUpRecruiter = createAsyncThunk(
   "recruiter/register",
   async ({ recruiter, navigate }, { rejectWithValue }) => {
     try {
-      console.log(Object.fromEntries(recruiter));
       const response = await RecruiterRegisterAPI(recruiter);
       navigate("/dashboard");
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(rejectWithValue(error.response.data));
       return rejectWithValue(error.response);
     }
   }
@@ -138,11 +130,9 @@ export const logoutRecruiter = createAsyncThunk(
   async ({ navigate }, { rejectWithValue }) => {
     try {
       const response = await RecruiterLogoutAPI();
-      console.log(response.data);
       navigate("/login");
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response);
     }
   }
@@ -151,7 +141,6 @@ export const logoutRecruiter = createAsyncThunk(
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
   extraReducers: {
     [signUpUser.pending]: (state) => {
       state.profile = null;
@@ -173,7 +162,6 @@ export const authSlice = createSlice({
       state.token = null;
       state.loading = false;
       state.error = payload.data.error;
-      console.log(state.error);
       toast.error(state.error);
     },
     [signInUser.pending]: (state) => {
@@ -214,17 +202,14 @@ export const authSlice = createSlice({
     },
     [changePassword.pending]: (state) => {
       state.loading = true;
-      // state.message = null;
       state.error = null;
     },
     [changePassword.fulfilled]: (state, { payload }) => {
-      // state.message = payload.message;
       state.loading = false;
       state.error = null;
       toast.success(payload.message);
     },
     [changePassword.rejected]: (state, { payload }) => {
-      // state.message = payload.data.message;
       state.loading = false;
       state.error = payload.error;
       toast.error(payload.message);
@@ -275,7 +260,6 @@ export const authSlice = createSlice({
       state.token = null;
       state.loading = false;
       state.error = payload.data.error;
-      console.log(state.error);
       toast.error(state.error);
     },
     [signInRecruiter.pending]: (state) => {

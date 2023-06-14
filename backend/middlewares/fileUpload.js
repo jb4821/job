@@ -66,27 +66,4 @@ module.exports = {
   fileUpload,
 };
 
-// const upload = multer({
-//   storage: multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, "middlewares");
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, file.fieldname + "-" + Date.now() + ".jpg");
-//     },
-//   }),
-// }).single("profileImg");
 
-// const upload = multer({
-//   storage: multerS3({
-//     s3,
-//     bucket: "jobportalbucket1",
-//     metadata: (req, file, cb) => {
-//       cb(null, { fieldName: file.fieldname });
-//     },
-//     key: (req, file, cb) => {
-//       const ext = path.extname(file.originalname);
-//       cb(null, `${Date.now()}${ext}`);
-//     },
-//   }),
-// });

@@ -20,20 +20,14 @@ const defaultTheme = createTheme();
 
 const UpdateJob = () => {
   const { id } = useParams();
-  // console.log(id);
-  const job = useSelector((state) => state.jobs);
-  // console.log(job.job?.[0].category);
+ 
   const [jobTitle, setJobtitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("");
   const [experience, setExperience] = useState("");
 
-  console.log(jobTitle, category, description, salary, experience);
-
-  // console.log("dfsddfdf", job.jobTitle);
-
-  //   console.log("aaaa",job.category);
+const job = useSelector((state) => state.jobs);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,11 +57,10 @@ const UpdateJob = () => {
       experience,
     };
     const data = JSON.stringify(jobData);
-    console.log(data);
-    console.log(id);
     dispatch(updateJob({ id, Job: data }));
     navigate("/dashboard");
   };
+
   return (
     <>
       <Navbar />

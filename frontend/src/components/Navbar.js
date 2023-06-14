@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../redux/slices/authSlice";
 import { Avatar } from "@mui/material";
 
 const Navbar = () => {
@@ -17,8 +16,6 @@ const Navbar = () => {
   };
 
   const handleClick = () => {
-    // console.log("IN Call");
-    // dispatch(logoutUser());
     localStorage.clear();
     navigate("/login");
   };
@@ -32,7 +29,7 @@ const Navbar = () => {
       <div className="container">
         <div className="logo">
           <span className="text">
-            <Link to={"/"}>Job Recruiter</Link>{" "}
+            <Link to={"/"}>Talent Spot</Link>{" "}
           </span>
         </div>
         <div className="links">
@@ -44,23 +41,11 @@ const Navbar = () => {
               <span>
                 <Link to={"/jobs"}>Jobs</Link>
               </span>
-              <span>
-                <Link to={"/about"}>About</Link>
-              </span>
-              <span>
-                <Link to={"/contect"}>Contact</Link>
-              </span>
+            
 
               <a onClick={handleShowMenu}>
                 <Avatar src={profile?.profileImg} />
-                {/* <img
-                  onClick={handleShowMenu}
-                  src={profile?.profileImg}
-                  width={50}
-                  height={50}
-                  style={{ borderRadius: "50%"}}
-                  alt=""
-                /> */}
+                
               </a>
               {menu && (
                 <div className="manageandlogin">
@@ -76,9 +61,6 @@ const Navbar = () => {
           {token && role === "recruiter" && (
             <>
               <span>
-                <Link to={"/"}>Home</Link>
-              </span>
-              <span>
                 <Link to={"/dashboard"}>Dashboard</Link>
               </span>
               <span>
@@ -87,13 +69,7 @@ const Navbar = () => {
 
               <a onClick={handleShowMenu}>
                 <Avatar src={profile?.profileImg} />
-                {/* <img
-                  onClick={handleShowMenu}
-                  src={profile?.profileImg}
-                  width={50}
-                  height={50}
-                  alt=""
-                /> */}
+                
               </a>
               {menu && (
                 <div className="manageandlogin">

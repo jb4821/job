@@ -9,7 +9,6 @@ import {
   CardMedia,
   Typography,
   Box,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -43,7 +42,7 @@ const RecruiterProfile = () => {
    };
 
    const handleChangePassword = () => {
-     // Perform validation on password and confirm password
+     
      if (password === "") {
        setError("Please enter a old password.");
        return;
@@ -61,7 +60,6 @@ const RecruiterProfile = () => {
      const data = JSON.stringify(change);
      dispatch(changePassword(data));
 
-     // Reset form and close the modal
      setPassword("");
      setNewPassword("");
      setError("");
@@ -85,9 +83,7 @@ const RecruiterProfile = () => {
               <Typography variant="h5" align="center">
                 {profile.name}
               </Typography>
-              <IconButton color="primary" aria-label="Edit">
-                <Edit />
-              </IconButton>
+             
             </Box>
             <Box
               sx={{
@@ -150,9 +146,9 @@ const RecruiterProfile = () => {
                 variant="contained"
                 onClick={handleOpen}
                 sx={{
-                  backgroundColor: "#4CAF50", // Green color
+                  backgroundColor: "#4CAF50", 
                   "&:hover": {
-                    backgroundColor: "#45a049", // Darker green color on hover
+                    backgroundColor: "#45a049",
                   },
                 }}
               >

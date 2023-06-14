@@ -31,7 +31,6 @@ const AddJobs = () => {
     salaryError: "",
     experienceError: "",
   });
-  // console.log(jobtitle, category, description, salary, experience);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,7 +49,6 @@ const AddJobs = () => {
 
     if (jobtitle.trim() === "") {
       newError.jobtitleError = "Jobtitle is required";
-      console.log(newError.jobtitleError);
       valid = false;
     }
 
@@ -194,9 +192,9 @@ const AddJobs = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#4CAF50", // Green color
+                  backgroundColor: "#4CAF50", 
                   "&:hover": {
-                    backgroundColor: "#45a049", // Darker green color on hover
+                    backgroundColor: "#45a049", 
                   },
                 }}
               >

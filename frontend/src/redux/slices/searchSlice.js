@@ -6,25 +6,21 @@ const initialState = {
   loading: false,
   message: "",
   error: null,
-  //   title: "",
-  //   category: "",
-  //   salary: "",
 };
 
 export const filterData = createAsyncThunk(
   "job/alljob",
   async ({ title, category, salary, page }, { rejectWithValue }) => {
     try {
-      const response = await GetJobByFilter({ title, category, salary,page });
-      // console.log(response.data);
+      const response = await GetJobByFilter({ title, category, salary, page });
+      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log("ssdsd", error);
+      console.log(error.response.data.message);
       return rejectWithValue(error);
     }
   }
 );
-
 
 export const searchSlice = createSlice({
   name: "search",
@@ -45,7 +41,7 @@ export const searchSlice = createSlice({
     [filterData.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload.error;
+      state.jobs = [];
     },
   },
 });
-

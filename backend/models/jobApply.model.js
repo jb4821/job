@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const Job = require("./job.model");
+
 
 const jobApplySchema = new mongoose.Schema({
   userId: {

@@ -4,14 +4,8 @@ const {
   updateJob,
   deleteJob,
   getAllJob,
-  // getJobByTitle,
-  // getByCategory,
-  // getJobBySalary,
-  // getJobByTime,
-  // getJobsByLocation,
   getJobbyrecruiter,
   getJobbyid,
-  getSearchResult,
 } = require("../controllers/job.controller");
 
 const auth = require("../middlewares/auth");
@@ -22,11 +16,5 @@ router.delete("/delete/:id", auth, deleteJob);
 router.get("/allJob", getAllJob);
 router.get("/jobbyid/:id", auth, getJobbyid);
 router.get("/jobbyrecruiter", auth, getJobbyrecruiter);
-// router.get("/jobBytitle", auth, getJobByTitle);
-// router.get("/jobByCategory", auth, getByCategory);
-// router.get("/jobBySalary", auth, getJobBySalary);
-// router.get("/jobByTime", auth, getJobByTime);
-// router.get("/jobByLocation", auth, getJobsByLocation);
-// router.get("/jobbysearch", getSearchResult);
 
 module.exports = router;
