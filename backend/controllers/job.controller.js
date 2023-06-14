@@ -91,7 +91,6 @@ const deleteJob = async (req, res) => {
 
 const getJobbyrecruiter = async (req, res) => {
   try {
-   
     const page = parseInt(req.query.page);
     const skipIndex = (page - 1) * 3;
 
@@ -105,10 +104,10 @@ const getJobbyrecruiter = async (req, res) => {
       isDeleted: false,
     })
       .populate({ path: "recruiterId", select: "profileImg company location" })
-      .sort({createdAt: -1})
+      .sort({ createdAt: -1 })
       .limit(3)
       .skip(skipIndex);
-    return res.status(200).json({ jobs, length:allJobs.length });
+    return res.status(200).json({ jobs, length: allJobs.length });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -116,24 +115,21 @@ const getJobbyrecruiter = async (req, res) => {
 
 //get all job
 
-
 const getAllJob = async (req, res) => {
   const query = req.query;
-  
+
   const filters = {
     ...(query.title && { jobTitle: { $regex: query.title, $options: "i" } }),
     ...(query.category && {
       category: { $regex: query.category, $options: "i" },
     }),
     ...(query.salary && { salary: { $regex: query.salary, $options: "i" } }),
-    
   };
   try {
-
     const page = parseInt(req.query.page);
     const skipIndex = (page - 1) * 3;
 
-    const allJob = await Job.find({ isDeleted: false, ...filters })
+    const allJob = await Job.find({ isDeleted: false, ...filters });
     const jobs = await Job.find({ isDeleted: false, ...filters })
       .populate({
         path: "recruiterId",
@@ -143,7 +139,7 @@ const getAllJob = async (req, res) => {
       .limit(3)
       .skip(skipIndex);
     if (jobs.length > 0) {
-      return res.status(200).json({ jobs , length: allJob.length});
+      return res.status(200).json({ jobs, length: allJob.length });
     } else {
       return res.status(404).json({ message: "No jobs found!" });
     }
@@ -160,7 +156,7 @@ const getJobbyid = async (req, res) => {
       _id: req.params.id,
       isDeleted: false,
     });
-    
+
     return res.status(200).json({ jobs: job });
   } catch (error) {
     return res.status(400).json({ error: error.message });

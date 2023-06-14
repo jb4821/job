@@ -18,12 +18,10 @@ const applyForJob = async (req, res) => {
     });
 
     if (existingApplication) {
-      return res
-        .status(400)
-        .json({
-          message: "You have already applied for this job.",
-          toast: true,
-        });
+      return res.status(400).json({
+        message: "You have already applied for this job.",
+        toast: true,
+      });
     }
 
     const applyForJob = new JobApply({
@@ -38,12 +36,10 @@ const applyForJob = async (req, res) => {
     const applyMessage = `Your request for <b>JobApplied ID : </b>#${applyForJob._id} is Applied successfully.</br> Resume: ${applyForJob.resume}`;
     sendApplyJobMail(req.user.email, applyMessage);
 
-    return res
-      .status(200)
-      .json({
-        message: "Job Request Applied Successfully.",
-        application: applyForJob,
-      });
+    return res.status(200).json({
+      message: "Job Request Applied Successfully.",
+      application: applyForJob,
+    });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -68,7 +64,7 @@ const getByRecruiter = async (req, res) => {
       .limit(3)
       .skip(skipIndex);
     if (application == 0) {
-      return res.status(400).json({ message: "No application found."});
+      return res.status(400).json({ message: "No application found." });
     }
     return res
       .status(200)
@@ -82,11 +78,11 @@ const getByRecruiter = async (req, res) => {
 
 const getByUser = async (req, res) => {
   try {
-     const page = parseInt(req.query.page);
-     const skipIndex = (page - 1) * 3;
-     const allApplication = await JobApply.find({
-       userId: req.user._id,
-     });
+    const page = parseInt(req.query.page);
+    const skipIndex = (page - 1) * 3;
+    const allApplication = await JobApply.find({
+      userId: req.user._id,
+    });
     const application = await JobApply.find({ userId: req.user.id })
       .populate({
         path: "jobId",
@@ -102,7 +98,9 @@ const getByUser = async (req, res) => {
     if (application == 0) {
       return res.status(400).json({ message: "No application found." });
     }
-    return res.status(200).json({ applications: application, length: allApplication.length });
+    return res
+      .status(200)
+      .json({ applications: application, length: allApplication.length });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

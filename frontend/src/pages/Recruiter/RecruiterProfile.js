@@ -23,48 +23,47 @@ import { changePassword } from "../../redux/slices/authSlice";
 
 const RecruiterProfile = () => {
   const { profile } = useSelector((state) => state.auth);
-   const [open, setOpen] = useState(false);
-   const [password, setPassword] = useState("");
-   const [newPassword, setNewPassword] = useState("");
-   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState("");
 
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-   const handleOpen = () => {
-     setOpen(true);
-   };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-   const handleClose = () => {
-     setOpen(false);
-     setPassword("");
-     setNewPassword("");
-     setError("");
-   };
+  const handleClose = () => {
+    setOpen(false);
+    setPassword("");
+    setNewPassword("");
+    setError("");
+  };
 
-   const handleChangePassword = () => {
-     
-     if (password === "") {
-       setError("Please enter a old password.");
-       return;
-     }
+  const handleChangePassword = () => {
+    if (password === "") {
+      setError("Please enter a old password.");
+      return;
+    }
 
-     if (newPassword === "") {
-       setError("Please enter a new password.");
-       return;
-     }
+    if (newPassword === "") {
+      setError("Please enter a new password.");
+      return;
+    }
 
-     const change = {
-       oldPassword: password,
-       newPassword: newPassword,
-     };
-     const data = JSON.stringify(change);
-     dispatch(changePassword(data));
+    const change = {
+      oldPassword: password,
+      newPassword: newPassword,
+    };
+    const data = JSON.stringify(change);
+    dispatch(changePassword(data));
 
-     setPassword("");
-     setNewPassword("");
-     setError("");
-     setOpen(false);
-   };
+    setPassword("");
+    setNewPassword("");
+    setError("");
+    setOpen(false);
+  };
 
   return (
     <>
@@ -83,7 +82,6 @@ const RecruiterProfile = () => {
               <Typography variant="h5" align="center">
                 {profile.name}
               </Typography>
-             
             </Box>
             <Box
               sx={{
@@ -146,7 +144,7 @@ const RecruiterProfile = () => {
                 variant="contained"
                 onClick={handleOpen}
                 sx={{
-                  backgroundColor: "#4CAF50", 
+                  backgroundColor: "#4CAF50",
                   "&:hover": {
                     backgroundColor: "#45a049",
                   },
