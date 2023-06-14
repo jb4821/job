@@ -108,6 +108,35 @@ const getByUser = async (req, res) => {
 
 //update status
 
+// const updateStatus = async (req, res) => {
+//   try {
+//     const { status } = req.body;
+
+//     const currentApplication = await JobApply.findOne({
+//       _id: req.params.id,
+//     }).populate("userId recruiterId");
+//     if (status === "accepted") {
+//       await JobApply.updateOne({ _id: req.params.id }, { status });
+//       const mailmessage = `Your application with <b> JobApplied ID: </b>${currentApplication._id} is Accepted by ${currentApplication.recruiterId.name}.`;
+//       sendAcceptJobMail(currentApplication.userId.email, mailmessage);
+
+//       return res
+//         .status(200)
+//         .json({ message: `Request: ${req.params.id} accepted.` });
+//     } else if (status === "rejected") {
+//       await JobApply.updateOne({ _id: req.params.id }, { status });
+//       const mailmessage = `Your application with <b>JobApplied ID: </b>${currentApplication._id} is Rejected.`;
+//       sendRejectJobMail(currentApplication.userId.email, mailmessage);
+
+//       return res
+//         .status(200)
+//         .json({ message: `Request: ${req.params.id} accepted.` });
+//     }
+//   } catch (error) {
+//     return res.status(400).json({ error: error.message });
+//   }
+// };
+
 const updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -115,27 +144,32 @@ const updateStatus = async (req, res) => {
     const currentApplication = await JobApply.findOne({
       _id: req.params.id,
     }).populate("userId recruiterId");
-    if (status === "accepted") {
+
+    if (status === "accepted" || status === "rejected") {
+      // Update the status of the current application
       await JobApply.updateOne({ _id: req.params.id }, { status });
-      const mailmessage = `Your application with <b> JobApplied ID: </b>${currentApplication._id} is Accepted by ${currentApplication.recruiterId.name}.`;
-      sendAcceptJobMail(currentApplication.userId.email, mailmessage);
+
+      // Update the status of other job applications by the same user
+      await JobApply.updateMany(
+        {
+          _id: { $ne: req.params.id }, // Exclude the current application
+          userId: currentApplication.userId,
+          status: { $ne: "closed" }, // Only update applications that are not already closed
+        },
+        { $set: { status: "closed" } }
+      );
+
+      // Send emails or notifications if needed
 
       return res
         .status(200)
-        .json({ message: `Request: ${req.params.id} accepted.` });
-    } else if (status === "rejected") {
-      await JobApply.updateOne({ _id: req.params.id }, { status });
-      const mailmessage = `Your application with <b>JobApplied ID: </b>${currentApplication._id} is Rejected.`;
-      sendRejectJobMail(currentApplication.userId.email, mailmessage);
-
-      return res
-        .status(200)
-        .json({ message: `Request: ${req.params.id} accepted.` });
+        .json({ message: `Request: ${req.params.id} updated successfully.` });
     }
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
 };
+
 
 module.exports = {
   applyForJob,

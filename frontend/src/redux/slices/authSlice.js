@@ -27,7 +27,6 @@ export const signUpUser = createAsyncThunk(
       const response = await UserRegisterAPI(user);
       navigate("/jobs");
       return response.data;
-
     } catch (error) {
       return rejectWithValue(error.response);
     }

@@ -1,36 +1,38 @@
 const mongoose = require("mongoose");
 
 
-const jobApplySchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-  },
+const jobApplySchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
 
-  jobId: {
-    type: mongoose.Types.ObjectId,
-    ref: "Job",
-  },
+    jobId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Job",
+    },
 
-  recruiterId: {
-    type: mongoose.Types.ObjectId,
-    ref: "Recruiter",
-  },
+    recruiterId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Recruiter",
+    },
 
-  resume: {
-    type: String,
-    required: true,
-  },
+    resume: {
+      type: String,
+      required: true,
+    },
 
-  status: {
-    type: String,
-    default: "pending",
-    enum: ["pending","accepted", "rejected"],
+    status: {
+      type: String,
+      default: "pending",
+      enum: ["pending", "accepted", "rejected", "closed"],
+    },
   },
-
-},{
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
 
 const JobApply = mongoose.model("JobApply", jobApplySchema);
 
